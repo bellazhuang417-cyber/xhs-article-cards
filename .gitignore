@@ -5,6 +5,7 @@ node_modules/
 output/
 *.png
 !templates/handdrawn/*.png
+!examples/*.png
 
 # OS files
 .DS_Store

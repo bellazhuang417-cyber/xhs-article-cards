@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { background: #F5F3EF; padding: 40px 20px; font-family: -apple-system, "PingFang SC", sans-serif; }
+h1 { text-align: center; color: #2C2C2C; font-size: 28px; margin-bottom: 8px; }
+.subtitle { text-align: center; color: #888; font-size: 15px; margin-bottom: 40px; }
+.grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; max-width: 1200px; margin: 0 auto; }
+.col { display: flex; flex-direction: column; align-items: center; }
+.label { font-size: 16px; font-weight: 600; color: #333; margin-bottom: 12px; }
+.card { width: 360px; height: 480px; position: relative; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.1); border-radius: 4px; }
+
+/* ========== ① 手绘人文风 ========== */
+.handdrawn { background: #FAF6EE; font-family: "Hannotate SC", cursive; }
+.handdrawn .hd-grid {
+  position: absolute; inset: 0;
+  background-image: linear-gradient(rgba(180,160,120,0.15) 1px, transparent 1px),
+                    linear-gradient(90deg, rgba(180,160,120,0.15) 1px, transparent 1px);
+  background-size: 20px 20px;
+}
+.handdrawn .hd-content { position: relative; z-index: 2; height: 100%; padding: 24px 22px; display: flex; flex-direction: column; }
+.handdrawn .hd-tag { font-size: 11px; color: #D4643A; font-weight: 700; letter-spacing: 0.1em; margin-bottom: 8px; }
+.handdrawn .hd-title { font-size: 26px; color: #2C2C2C; font-weight: 700; line-height: 1.3; margin-bottom: 6px; }
+.handdrawn .hd-sub { font-size: 12px; color: #78716C; margin-bottom: 16px; }
+.handdrawn .hd-illu { flex: 1; display: flex; align-items: center; justify-content: center; }
+.handdrawn .hd-illu svg { width: 100px; height: 100px; }
+.handdrawn .hd-meta { display: flex; justify-content: space-between; font-size: 11px; color: #A8A29E; border-top: 1.5px dashed #D6CFC0; padding-top: 10px; }
+
+/* ========== ② 极简编辑风 ========== */
+.editorial { background: #F5F1EA; font-family: "Songti SC", serif; }
+.editorial .ed-content { height: 100%; padding: 28px 24px; display: flex; flex-direction: column; }
+.editorial .ed-top { display: flex; justify-content: space-between; font-size: 10px; color: #6B6258; letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 20px; }
+.editorial .ed-line { width: 40px; height: 1px; background: #C9BFB0; margin-bottom: 16px; }
+.editorial .ed-title { font-size: 28px; color: #2C2C2C; font-weight: 600; line-height: 1.3; margin-bottom: 8px; }
+.editorial .ed-sub { font-size: 13px; color: #6B6258; font-style: italic; margin-bottom: auto; }
+.editorial .ed-body { font-size: 13px; color: #6B6258; line-height: 1.8; margin-bottom: 20px; }
+.editorial .ed-bot { display: flex; justify-content: space-between; font-size: 11px; color: #A8A29E; border-top: 1px solid #C9BFB0; padding-top: 10px; }
+
+/* ========== ③ 知识卡片风 ========== */
+.knowledge { background: #FFFFFF; font-family: "PingFang SC", sans-serif; }
+.knowledge .kn-content { height: 100%; padding: 24px 22px; display: flex; flex-direction: column; }
+.knowledge .kn-tags { display: flex; gap: 6px; margin-bottom: 14px; }
+.knowledge .kn-tag { font-size: 10px; padding: 3px 10px; border-radius: 10px; font-weight: 600; }
+.knowledge .kn-tag.t1 { background: #EFF6FF; color: #2563EB; }
+.knowledge .kn-tag.t2 { background: #FEF3C7; color: #D97706; }
+.knowledge .kn-title { font-size: 24px; color: #1E293B; font-weight: 800; line-height: 1.3; margin-bottom: 6px; }
+.knowledge .kn-sub { font-size: 12px; color: #64748B; margin-bottom: 16px; }
+.knowledge .kn-cards { display: flex; flex-direction: column; gap: 10px; flex: 1; }
+.knowledge .kn-card { background: #F8FAFC; border-radius: 8px; padding: 12px 14px; border-left: 3px solid #2563EB; }
+.knowledge .kn-card .kc-title { font-size: 13px; font-weight: 700; color: #1E293B; margin-bottom: 4px; }
+.knowledge .kn-card .kc-desc { font-size: 11px; color: #64748B; line-height: 1.5; }
+.knowledge .kn-bot { display: flex; align-items: center; gap: 8px; margin-top: 12px; font-size: 11px; color: #94A3B8; }
+.knowledge .kn-bot .avatar { width: 24px; height: 24px; border-radius: 50%; background: #2563EB; color: #FFF; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; }
+
+/* ========== ④ 插画波普风 ========== */
+.pop { background: #FDE047; font-family: "PingFang SC", sans-serif; }
+.pop .pop-halftone { position: absolute; inset: 0; background-image: radial-gradient(circle, #EAB308 1.5px, transparent 1.5px); background-size: 12px 12px; opacity: 0.35; }
+.pop .pop-content { position: relative; z-index: 2; height: 100%; padding: 24px 20px; display: flex; flex-direction: column; }
+.pop .pop-tag { display: inline-flex; background: #1C1917; color: #FDE047; padding: 4px 12px; border-radius: 16px; font-size: 10px; font-weight: 700; letter-spacing: 0.1em; align-self: flex-start; }
+.pop .pop-illu { flex: 1; display: flex; align-items: center; justify-content: center; }
+.pop .pop-balloon { width: 60px; height: 70px; position: relative; }
+.pop .pop-balloon-top { width: 60px; height: 60px; border-radius: 50%; background: #FFF; border: 2px solid #1C1917; }
+.pop .pop-balloon-string { width: 2px; height: 12px; background: #1C1917; margin: 0 auto; }
+.pop .pop-banner { background: #FFF; border: 2px solid #1C1917; padding: 10px 14px; transform: rotate(-1.5deg); box-shadow: 3px 3px 0 #1C1917; }
+.pop .pop-banner h2 { font-size: 16px; font-weight: 800; color: #1C1917; line-height: 1.3; }
+.pop .pop-banner p { font-size: 10px; color: #854D0E; margin-top: 3px; font-weight: 500; }
+.pop .pop-meta { display: flex; gap: 8px; margin-top: 10px; font-size: 10px; color: #1C1917; font-weight: 600; }
+.pop .pop-meta .dot { width: 3px; height: 3px; background: #1C1917; border-radius: 50%; align-self: center; }
+
+/* ========== ⑤ 极简冲击风 ========== */
+.impact { background: #FFFFFF; font-family: "PingFang SC", sans-serif; }
+.impact .imp-content { height: 100%; display: flex; flex-direction: column; }
+.impact .imp-header { display: flex; align-items: center; justify-content: space-between; padding: 18px 22px 0; font-size: 11px; }
+.impact .imp-brand { font-weight: 700; color: #0A0A0A; font-style: italic; font-size: 13px; }
+.impact .imp-signup { background: #22C55E; color: #FFF; padding: 3px 10px; border-radius: 12px; font-size: 10px; font-weight: 600; }
+.impact .imp-body { padding: 20px 22px; flex: 1; display: flex; flex-direction: column; }
+.impact .imp-headline { font-size: 28px; font-weight: 800; color: #0A0A0A; line-height: 1.1; letter-spacing: -0.02em; margin-bottom: 10px; }
+.impact .imp-headline span { color: #22C55E; }
+.impact .imp-sub { font-size: 12px; color: #737373; margin-bottom: 12px; }
+.impact .imp-cta { display: inline-block; background: #22C55E; color: #FFF; padding: 6px 16px; border-radius: 18px; font-size: 11px; font-weight: 600; align-self: flex-start; margin-bottom: 16px; }
+.impact .imp-visual { flex: 1; display: flex; align-items: center; justify-content: center; }
+.impact .imp-circle { width: 100px; height: 100px; border-radius: 50%; background: radial-gradient(circle at 35% 35%, #67E8F9, #06B6D4 60%, #0891B2); box-shadow: 0 8px 24px rgba(6,182,212,0.25); }
+.impact .imp-footer { display: flex; justify-content: space-between; font-size: 10px; color: #A3A3A3; padding-top: 10px; border-top: 1px solid #F0F0F0; }
+
+/* ========== ⑥ 日系杂志风 ========== */
+.magazine { background: #FFFBF5; font-family: Georgia, serif; }
+.magazine .mag-content { height: 100%; padding: 20px 22px; display: flex; flex-direction: column; }
+.magazine .mag-top { display: flex; justify-content: space-between; font-size: 9px; color: #B0AAA3; letter-spacing: 0.15em; margin-bottom: 8px; }
+.magazine .mag-title-c { text-align: center; margin-bottom: 8px; }
+.magazine .mag-title-en { font-size: 16px; color: #57534E; letter-spacing: 0.06em; font-weight: 500; }
+.magazine .mag-title-jp { font-size: 10px; color: #B0AAA3; margin-top: 2px; }
+.magazine .mag-line { width: 30px; height: 1px; background: #DDD7CC; margin: 5px auto; }
+.magazine .mag-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; flex: 1; }
+.magazine .mag-item { text-align: center; }
+.magazine .mag-item-label { font-size: 7px; color: #B0AAA3; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 3px; }
+.magazine .mag-item-box { width: 100%; aspect-ratio: 4/3; border-radius: 5px; display: flex; align-items: center; justify-content: center; }
+.magazine .g1 .mag-item-box { background: #F5EFE6; }
+.magazine .g2 .mag-item-box { background: #94A3B8; }
+.magazine .g3 .mag-item-box { background: #E0DCE8; }
+.magazine .g4 .mag-item-box { background: #D4B896; }
+.magazine .mag-item-box span { font-size: 18px; font-weight: 200; color: rgba(255,255,255,0.5); }
+.magazine .g1 .mag-item-box span { color: rgba(87,83,78,0.2); }
+.magazine .mag-bot { display: flex; justify-content: space-between; font-size: 9px; color: #B0AAA3; padding-top: 8px; border-top: 1px solid #EEE8DD; }
+</style>
+</head>
+<body>
+
+<h1>xhs-article-cards · 6 套模板风格</h1>
+<p class="subtitle">示例文章：阅读是认知的复利 · 360 × 480（3:4 缩略）</p>
+
+<div class="grid">
+
+  <!-- ① 手绘人文风 -->
+  <div class="col">
+    <div class="label">① 手绘人文风 handdrawn</div>
+    <div class="card handdrawn">
+      <div class="hd-grid"></div>
+      <div class="hd-content">
+        <div class="hd-tag">★ READING · 随笔</div>
+        <div class="hd-title">阅读是<br>认知的复利</div>
+        <div class="hd-sub">一本好书如何改变你看待世界的方式</div>
+        <div class="hd-illu">
+          <svg viewBox="0 0 100 100" fill="none" stroke="#2C2C2C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M20 30 Q20 25 25 25 L45 25 Q50 25 50 30 L50 70 Q50 75 45 75 L25 75 Q20 75 20 70 Z"/>
+            <path d="M50 30 Q50 25 55 25 L75 25 Q80 25 80 30 L80 70 Q80 75 75 75 L55 75 Q50 75 50 70 Z"/>
+            <line x1="25" y1="35" x2="45" y2="35"/>
+            <line x1="25" y1="42" x2="42" y2="42"/>
+            <line x1="55" y1="35" x2="75" y2="35"/>
+            <line x1="55" y1="42" x2="72" y2="42"/>
+            <path d="M30 15 Q35 10 40 15" stroke="#D4643A"/>
+            <circle cx="35" cy="18" r="1.5" fill="#D4643A" stroke="none"/>
+          </svg>
+        </div>
+        <div class="hd-meta">
+          <span>Bella</span>
+          <span>01 / 06</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ② 极简编辑风 -->
+  <div class="col">
+    <div class="label">② 极简编辑风 editorial</div>
+    <div class="card editorial">
+      <div class="ed-content">
+        <div class="ed-top">
+          <span>BELLA</span>
+          <span>READING</span>
+        </div>
+        <div class="ed-line"></div>
+        <div class="ed-title">阅读是<br>认知的复利</div>
+        <div class="ed-sub">Reading as Compound Interest of Cognition</div>
+        <div class="ed-body">
+          每一本书都在重塑你看待世界的方式。阅读不是即时回报的投资，而是需要时间发酵的复利。
+        </div>
+        <div class="ed-bot">
+          <span>Bella · 咖啡 · 阅读 · AI</span>
+          <span>01 / 06</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ③ 知识卡片风 -->
+  <div class="col">
+    <div class="label">③ 知识卡片风 knowledge</div>
+    <div class="card knowledge">
+      <div class="kn-content">
+        <div class="kn-tags">
+          <span class="kn-tag t1">#阅读</span>
+          <span class="kn-tag t2">#认知</span>
+        </div>
+        <div class="kn-title">阅读是认知的复利</div>
+        <div class="kn-sub">一本好书如何改变你看待世界的方式</div>
+        <div class="kn-cards">
+          <div class="kn-card">
+            <div class="kc-title">复利效应</div>
+            <div class="kc-desc">每天 30 页，一年 50 本书，认知层层叠加</div>
+          </div>
+          <div class="kn-card" style="border-left-color: #D97706;">
+            <div class="kc-title">视角重塑</div>
+            <div class="kc-desc">每本书都是一个新 lens，改变你看到的世界</div>
+          </div>
+        </div>
+        <div class="kn-bot">
+          <div class="avatar">B</div>
+          <span>Bella · 01 / 06</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ④ 插画波普风 -->
+  <div class="col">
+    <div class="label">④ 插画波普风 pop</div>
+    <div class="card pop">
+      <div class="pop-halftone"></div>
+      <div class="pop-content">
+        <span class="pop-tag">★ ESSAY · 随笔</span>
+        <div class="pop-illu">
+          <div class="pop-balloon">
+            <div class="pop-balloon-top"></div>
+            <div class="pop-balloon-string"></div>
+          </div>
+        </div>
+        <div class="pop-banner">
+          <h2>阅读是<br>认知的复利</h2>
+          <p>一本好书如何改变你看待世界的方式</p>
+        </div>
+        <div class="pop-meta">
+          <span>Bella</span><span class="dot"></span>
+          <span>2026</span><span class="dot"></span>No.001
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ⑤ 极简冲击风 -->
+  <div class="col">
+    <div class="label">⑤ 极简冲击风 impact</div>
+    <div class="card impact">
+      <div class="imp-content">
+        <div class="imp-header">
+          <span class="imp-brand">Bella</span>
+          <span class="imp-signup">+ 关注</span>
+        </div>
+        <div class="imp-body">
+          <div class="imp-headline">阅读是<br>认知的<br><span>复利。</span></div>
+          <div class="imp-sub">一本好书如何改变你看待世界的方式</div>
+          <div class="imp-cta">开始阅读 →</div>
+          <div class="imp-visual"><div class="imp-circle"></div></div>
+          <div class="imp-footer">
+            <span>阅读是认知的复利</span><span>01 / 06</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ⑥ 日系杂志风 -->
+  <div class="col">
+    <div class="label">⑥ 日系杂志风 magazine</div>
+    <div class="card magazine">
+      <div class="mag-content">
+        <div class="mag-top">
+          <span>No.001 · 2026 SUMMER</span>
+          <span>READING</span>
+        </div>
+        <div class="mag-title-c">
+          <div class="mag-title-en">Reading &amp; Cognition</div>
+          <div class="mag-title-jp">読書と認知の複利</div>
+          <div class="mag-line"></div>
+        </div>
+        <div class="mag-grid">
+          <div class="mag-item g1">
+            <div class="mag-item-label">BOOK 01</div>
+            <div class="mag-item-box"><span>1</span></div>
+          </div>
+          <div class="mag-item g2">
+            <div class="mag-item-label">BOOK 02</div>
+            <div class="mag-item-box"><span>2</span></div>
+          </div>
+          <div class="mag-item g3">
+            <div class="mag-item-label">BOOK 03</div>
+            <div class="mag-item-box"><span>3</span></div>
+          </div>
+          <div class="mag-item g4">
+            <div class="mag-item-label">BOOK 04</div>
+            <div class="mag-item-box"><span>4</span></div>
+          </div>
+        </div>
+        <div class="mag-bot">
+          <span>Bella</span><span>01 / 06</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+</body>
+</html>
