@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>白板 Whiteboard 风 · {{article_title}}</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { background: #E8E2D5; }
+
+:root {
+  --paper: #FAF8F0;
+  --paper-line: #F0EBD8;
+  --ink: #2C2C2C;
+  --ink-soft: #666;
+  --orange: #F77F00;
+  --orange-light: #FFF3E0;
+  --blue-light: #E3F2FD;
+  --green-light: #E8F5E9;
+  --bold: "PingFang SC", "Hiragino Sans GB", -apple-system, sans-serif;
+}
+
+.page {
+  width: 1080px; height: 1440px;
+  background: var(--paper);
+  position: relative; overflow: hidden;
+  margin: 0 auto 40px;
+  font-family: var(--bold);
+  /* 纸张纹理：淡横线 */
+  background-image:
+    linear-gradient(var(--paper-line) 1px, transparent 1px);
+  background-size: 100% 28px;
+}
+
+/* ===== 纸张边缘（轻微不规则） ===== */
+.paper-edge {
+  position: absolute; inset: 12px;
+  border: 2px solid rgba(44,44,44,0.08);
+  border-radius: 4px; pointer-events: none;
+}
+
+/* ===== 内容层 ===== -->
+.wb-content {
+  height: 100%; padding: 56px 60px;
+  display: flex; flex-direction: column;
+  position: relative; z-index: 2;
+}
+
+/* ===== 顶部品牌 ===== */
+.wb-top {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-bottom: 16px; flex-shrink: 0;
+}
+.wb-top .wb-brand-icons { display: flex; gap: 10px; align-items: center; }
+.wb-top .wb-brand-dot {
+  width: 28px; height: 28px; border-radius: 50%;
+  border: 2.5px solid var(--ink); display: flex; align-items: center; justify-content: center;
+  font-size: 11px; font-weight: 800; color: var(--ink-soft); }
+.wb-top .wb-tag {
+  font-size: 13px; color: var(--orange); font-weight: 700;
+  padding: 5px 14px; border: 2.5px solid var(--orange); border-radius: 20px;
+  letter-spacing: 0.05em;
+}
+.wb-top .wb-date { font-size: 15px; color: var(--ink-soft); font-weight: 600; }
+
+/* ===== 手绘下划线标题 ===== */
+.wb-title-wrap { text-align: center; margin-bottom: 20px; flex-shrink: 0; }
+.wb-title-main {
+  font-size: 46px; font-weight: 900; color: var(--ink);
+  letter-spacing: -0.01em; line-height: 1.2; position: relative; display: inline-block;
+}
+.wb-title-main::after {
+  content: ""; position: absolute; bottom: 2px; left: -8px; right: -8px;
+  height: 6px; background: var(--orange); opacity: 0.45; z-index: -1;
+  border-radius: 3px;
+  transform: rotate(-0.5deg);
+}
+.wb-sub {
+  font-size: 18px; color: var(--ink-soft); margin-top: 8px;
+  font-style: italic; font-weight: 500;
+}
+
+/* ===== 手绘框（圆角矩形）===== */
+.wb-box {
+  border: 2.5px solid var(--ink); border-radius: 12px;
+  padding: 20px 24px; position: relative;
+  background: var(--white);
+  box-shadow: 3px 3px 0 rgba(0,0,0,0.06);
+}
+.wb-box::before {
+  content: ""; position: absolute; top: -2px; left: 18px; right: 18px;
+  height: 2.5px; background: var(--ink); border-radius: 1px;
+}
+
+/* ===== 中央大词区域 ===== */
+.wb-hero {
+  flex: 1; display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  gap: 20px; z-index: 2;
+}
+.wb-hero-word {
+  font-size: 120px; font-weight: 900; color: var(--ink);
+  line-height: 1; letter-spacing: -0.03em;
+  position: relative;
+}
+.wb-hero-word::after {
+  content: ""; position: absolute; bottom: 4px; left: 0; right: 0;
+  height: 8px; background: var(--orange); opacity: 0.25; z-index: -1;
+  border-radius: 4px;
+}
+
+/* ===== 流程框环绕 ===== */
+.wb-flow-grid {
+  display: grid; grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  gap: 16px; flex: 1; align-items: stretch;
+  padding: 10px 0;
+}
+.wb-flow-item { display: flex; flex-direction: column; }
+.wb-flow-item .wfi-label {
+  font-size: 17px; font-weight: 800; color: var(--ink); text-align: center; margin-bottom: 8px;
+}
+.wb-flow-item .wfi-box {
+  border: 2.5px solid var(--ink); border-radius: 12px;
+  padding: 16px; flex: 1; display: flex; flex-direction: column;
+  align-items: center; justify-content: center; text-align: center;
+  background: #FFF; min-height: 100px;
+  box-shadow: 2px 2px 0 rgba(0,0,0,0.05);
+}
+.wb-flow-item .wfi-icon { font-size: 32px; margin-bottom: 6px; }
+
+/* ===== 橙色箭头 ===== */
+.wb-arrow { color: var(--orange); font-size: 26px; font-weight: 900; text-align: center; line-height: 1; }
+
+/* ===== 正文 ===== -->
+.wb-body {
+  flex: 1; display: flex; flex-direction: column; justify-content: center;
+  z-index: 2;
+}
+.wb-body-text {
+  font-size: 24px; line-height: 1.85; color: var(--ink);
+  font-weight: 400;
+}
+.wb-body-text p { margin-bottom: 22px; padding-left: 8px; }
+.wb-body-text p:last-child { margin-bottom: 0; }
+.wb-body-text strong { font-weight: 800; }
+
+/* ===== 手绘要点卡片 ===== */
+.wb-points { display: flex; flex-direction: column; gap: 18px; flex: 1; justify-content: center; z-index: 2; }
+.wb-point-card {
+  border: 2.5px solid var(--ink); border-radius: 14px;
+  padding: 20px 24px; display: flex; gap: 18px; align-items: flex-start;
+  background: #FFF; box-shadow: 3px 3px 0 rgba(0,0,0,0.05);
+  transform: rotate(-0.2deg);
+}
+.wb-point-card:nth-child(even) { transform: rotate(0.3deg); }
+.wb-point-card .wpc-num {
+  font-size: 32px; font-weight: 900; color: var(--orange);
+  flex-shrink: 0; width: 48px; text-align: center;
+}
+.wb-point-card .wpc-body { flex: 1; }
+.wb-point-card .wpc-title {
+  font-size: 24px; font-weight: 800; color: var(--ink); margin-bottom: 6px;
+}
+.wb-point-card .wpc-desc {
+  font-size: 19px; line-height: 1.6; color: var(--ink-soft); font-weight: 400;
+}
+
+/* ===== 金句区（手绘引号 + 大字）===== -->
+.wb-quote-area { flex: 1; display: flex; align-items: center; justify-content: center; z-index: 2; padding: 30px; }
+.wb-quote-box {
+  border: 3px solid var(--ink); border-radius: 16px;
+  padding: 36px 40px; max-width: 800px; text-align: center;
+  background: #FFF; position: relative; box-shadow: 5px 5px 0 var(--orange);
+  transform: rotate(-0.8deg);
+}
+.wb-quote-box .wbq-mark {
+  font-size: 56px; color: var(--orange); font-weight: 900; line-height: 1;
+  position: absolute; top: -8px; left: 16px;
+}
+.wb-quote-text {
+  font-size: 34px; font-weight: 800; color: var(--ink);
+  line-height: 1.5; letter-spacing: -0.01em;
+}
+
+/* ===== 结尾 ===== -->
+.wb-ending { flex: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; z-index: 2; padding: 30px; }
+.wb-ending-title {
+  font-size: 52px; font-weight: 900; color: var(--ink); line-height: 1.25;
+  margin-bottom: 24px; position: relative; display: inline-block;
+}
+.wb-ending-title::after {
+  content: ""; position: absolute; bottom: 2px; left: -12px; right: -12px;
+  height: 7px; background: var(--orange); opacity: 0.35; z-index: -1;
+  border-radius: 4px;
+}
+.wb-ending-text {
+  font-size: 23px; line-height: 1.8; color: var(--ink-soft);
+  max-width: 660px; margin-bottom: 36px; font-weight: 400;
+}
+.wb-ending-sig {
+  display: flex; align-items: center; gap: 14px;
+  border: 2.5px solid var(--ink); border-radius: 24px;
+  padding: 14px 28px; background: #FFF;
+  box-shadow: 3px 3px 0 rgba(0,0,0,0.06);
+}
+.wb-ending-sig .sig-circle {
+  width: 42px; height: 42px; border-radius: 50%;
+  background: var(--ink); color: #FFF;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px; font-weight: 800;
+}
+.wb-ending-sig .sig-name { font-size: 21px; font-weight: 800; color: var(--ink); }
+.wb-ending-sig .sig-tag { font-size: 13px; color: var(--ink-soft); font-weight: 500; }
+
+/* ===== 底部签名 ===== -->
+.wb-bot {
+  display: flex; justify-content: space-between; align-items: center;
+  font-size: 15px; color: var(--ink-soft); font-weight: 600;
+  padding-top: 16px; border-top: 2.5px dashed rgba(44,44,44,0.15);
+  flex-shrink: 0; margin-top: auto;
+}
+</style>
+</head>
+<body>
+
+<!-- ===== 页面 1：封面 ===== -->
+<div class="page">
+  <div class="paper-edge"></div>
+  <div class="wb-content">
+    <div class="wb-top">
+      <div class="wb-brand-icons">
+        <span class="wb-brand-dot" style="color:#E74C3C;">●</span>
+        <span class="wb-brand-dot" style="color:#3498DB;">●</span>
+        <span class="wb-brand-dot" style="color:#9B59B6;">●</span>
+      </div>
+      <span class="wb-tag">{{tag_label}}</span>
+      <span class="wb-date">{{date}}</span>
+    </div>
+
+    <div class="wb-title-wrap">
+      <div class="wb-title-main">{{article_title}}</div>
+      <div class="wb-sub">{{cover_subtitle}}</div>
+    </div>
+
+    <!-- 封面中央大词 + 周围流程框 -->
+    <div class="wb-hero">
+      <div class="wb-flow-grid" style="grid-template-columns: 1fr 1.4fr 1fr; grid-template-rows: auto auto;">
+        <div class="wb-flow-item">
+          <div class="wfi-label">Prompt</div>
+          <div class="wfi-box">Ask → Answer → Stop</div>
+        </div>
+        <div class="wb-hero-word" style="font-size:72px;">{{hero_word}}</div>
+        <div class="wb-flow-item">
+          <div class="wfi-label">Loop</div>
+          <div class="wfi-box">Goal → Work → Check → Repeat</div>
+        </div>
+        <div class="wb-flow-item">
+          <div class="wfi-label">Discover</div>
+          <div class="wfi-box" style="background:var(--blue-light);">🔍 Research & Find</div>
+        </div>
+        <div></div>
+        <div class="wb-flow-item">
+          <div class="wfi-label">Execute</div>
+          <div class="wfi-box" style="background:var(--green-light);">⚙️ Build & Ship</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="wb-bot">
+      <span>{{user_name}}</span><span>01 / 06</span>
+    </div>
+  </div>
+</div>
+
+<!-- ===== 页面 2：章节 ===== -->
+<div class="page">
+  <div class="paper-edge"></div>
+  <div class="wb-content">
+    <div class="wb-top">
+      <div class="wb-brand-icons"><span class="wb-brand-dot">01</span></div>
+      <span class="wb-tag">CHAPTER 01</span>
+      <span class="wb-date">{{date}}</span>
+    </div>
+
+    <div class="wb-title-wrap" style="text-align:left;">
+      <div class="wb-title-main" style="font-size:52px;">{{chapter_1_title}}</div>
+      <div class="wb-sub">{{chapter_1_subtitle}}</div>
+    </div>
+
+    <div class="wb-body">
+      <div class="wb-body-text">
+        <p>{{chapter_1_body_1}}</p>
+        <p>{{chapter_1_body_2}}</p>
+      </div>
+    </div>
+
+    <div class="wb-bot">
+      <span>{{user_name}}</span><span>02 / 06</span>
+    </div>
+  </div>
+</div>
+
+<!-- ===== 页面 3：要点 ===== -->
+<div class="page">
+  <div class="paper-edge"></div>
+  <div class="wb-content">
+    <div class="wb-top">
+      <div class="wb-brand-icons"><span class="wb-brand-dot">02</span></div>
+      <span class="wb-tag">KEY POINTS</span>
+      <span class="wb-date">{{date}}</span>
+    </div>
+
+    <div class="wb-title-wrap">
+      <div class="wb-title-main">{{chapter_2_title}}</div>
+    </div>
+
+    <div class="wb-points">
+      <div class="wb-point-card">
+        <div class="wpc-num">①</div>
+        <div class="wpc-body">
+          <div class="wpc-title">{{point_1_title}}</div>
+          <div class="wpc-desc">{{point_1_desc}}</div>
+        </div>
+      </div>
+      <div class="wb-point-card">
+        <div class="wpc-num">②</div>
+        <div class="wpc-body">
+          <div class="wpc-title">{{point_2_title}}</div>
+          <div class="wpc-desc">{{point_2_desc}}</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="wb-bot">
+      <span>{{user_name}}</span><span>03 / 06</span>
+    </div>
+  </div>
+</div>
+
+<!-- ===== 页面 4：要点（续） ===== -->
+<div class="page">
+  <div class="paper-edge"></div>
+  <div class="wb-content">
+    <div class="wb-top">
+      <div class="wb-brand-icons"><span class="wb-brand-dot">03</span></div>
+      <span class="wb-tag">KEY POINTS</span>
+      <span class="wb-date">{{date}}</span>
+    </div>
+
+    <div class="wb-title-wrap">
+      <div class="wb-title-main">{{chapter_3_title}}</div>
+    </div>
+
+    <div class="wb-points">
+      <div class="wb-point-card">
+        <div class="wpc-num">③</div>
+        <div class="wpc-body">
+          <div class="wpc-title">{{point_3_title}}</div>
+          <div class="wpc-desc">{{point_3_desc}}</div>
+        </div>
+      </div>
+      <div class="wb-point-card">
+        <div class="wpc-num">④</div>
+        <div class="wpc-body">
+          <div class="wpc-title">{{point_4_title}}</div>
+          <div class="wpc-desc">{{point_4_desc}}</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="wb-bot">
+      <span>{{user_name}}</span><span>04 / 06</span>
+    </div>
+  </div>
+</div>
+
+<!-- ===== 页面 5：金句 ===== -->
+<div class="page">
+  <div class="paper-edge"></div>
+  <div class="wb-content">
+    <div class="wb-top">
+      <div class="wb-brand-icons"><span class="wb-brand-dot">★</span></div>
+      <span class="wb-tag">QUOTE</span>
+      <span class="wb-date">{{user_name}}</span>
+    </div>
+
+    <div class="wb-quote-area">
+      <div class="wb-quote-box">
+        <div class="wbq-mark">"</div>
+        <div class="wb-quote-text">{{quote_text}}</div>
+      </div>
+    </div>
+
+    <div class="wb-bot">
+      <span>{{article_title}}</span><span>05 / 06</span>
+    </div>
+  </div>
+</div>
+
+<!-- ===== 页面 6：结尾 ===== -->
+<div class="page">
+  <div class="paper-edge"></div>
+  <div class="wb-content">
+    <div class="wb-top">
+      <div class="wb-brand-icons"><span class="wb-brand-dot">✓</span></div>
+      <span class="wb-tag">THE END</span>
+      <span class="wb-date">{{article_title}}</span>
+    </div>
+
+    <div class="wb-ending">
+      <div class="wb-ending-title">{{ending_title}}</div>
+      <div class="wb-ending-text">{{ending_text}}</div>
+      <div class="wb-ending-sig">
+        <div class="sig-circle">{{initial}}</div>
+        <div>
+          <div class="sig-name">{{user_name}}</div>
+          <div class="sig-tag">{{tagline}}</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="wb-bot">
+      <span>{{user_name}}</span><span>06 / 06</span>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

@@ -160,7 +160,7 @@ lines. The entire drawing centered in the frame.
 
 ### 5. 填充 HTML 模板
 
-**六种风格模板可选：**
+**八种风格模板可选：**
 
 | # | 风格 | 路径 | 特点 |
 |---|------|------|------|
@@ -170,6 +170,8 @@ lines. The entire drawing centered in the frame.
 | 4 | 插画波普风 | `templates/pop/template.html` | 黄底半调网点 + 粗体横幅 + 倾斜卡片 |
 | 5 | 极简冲击风 | `templates/impact/template.html` | 白底 + 超大标题 + 绿色 CTA + 极简留白 |
 | 6 | 日系杂志风 | `templates/magazine/template.html` | 暖白底 + Grid 散落布局 + 衬线标题 + multiply 插画 |
+| 7 | 拼贴 Collage 风 | `templates/collage/template.html` | 青色底 + 黑白照片剪贴 + 橙色粗框 + 洋红色块 |
+| 8 | 白板 Whiteboard 风 | `templates/whiteboard/template.html` | 米白纸底 + 手绘框线 + 橙色箭头 + 草图图标 |
 
 用户可在 Step 0 选择默认风格，或每次生成时指定。
 
@@ -227,13 +229,15 @@ NODE_PATH=<workspace>/node_modules node exporter/screenshot-file.js <html路径>
 ## 默认配置
 
 - 比例：3:4（1080x1440 设计，2160x2880 导出）
-- **六种风格可选：**
+- **八种风格可选：**
   - 手绘人文风（handdrawn）：方格纸底 + 手绘边框 + 全局手札体（Hannotate SC）— 默认推荐
   - 极简编辑风（editorial）：杂志排版 + 宋体标题 + 极简线条
   - 知识卡片风（knowledge）：白底 + 彩色标签 + 结构化卡片
   - 插画波普风（pop）：黄底半调网点 + 粗体横幅 + 倾斜卡片
   - 极简冲击风（impact）：白底 + 超大标题 + 绿色 CTA + 极简留白
   - 日系杂志风（magazine）：暖白底 + Grid 散落布局 + 衬线标题 + multiply 插画
+  - 拼贴 Collage 风（collage）：青色底 + 黑白照片剪贴 + 橙色粗框 + 洋红色块
+  - 白板 Whiteboard 风（whiteboard）：米白纸底 + 手绘框线 + 橙色箭头 + 草图图标
 - **默认 IP：无（新用户首次使用时引导设计）**
 - 模板自带示例 IP 图（`templates/handdrawn/` 下的两张 sample），仅作风格参考，使用者应替换为自己的 IP
 - **默认作者名：无（必须从用户收集，不能写死）**

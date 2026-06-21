@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>拼贴 Collage 风 · {{article_title}}</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { background: #E8E2D5; }
+
+:root {
+  --cyan: #00B4D8;
+  --cyan-dark: #0077B6;
+  --magenta: #E91E7F;
+  --orange: #F77F00;
+  --ink: #1A1A1A;
+  --white: #FFFFFF;
+  --cream: #F5F0E8;
+  --bold: "PingFang SC", "Hiragino Sans GB", -apple-system, sans-serif;
+}
+
+.page {
+  width: 1080px; height: 1440px;
+  position: relative; overflow: hidden;
+  margin: 0 auto 40px;
+  font-family: var(--bold);
+}
+
+/* ===== 橙色粗外框（宝丽来相框感）===== */
+.page-inner {
+  position: absolute; inset: 16px;
+  border: 6px solid var(--orange);
+  background: var(--cyan);
+  display: flex; flex-direction: column;
+  overflow: hidden;
+}
+
+/* ===== 品牌条 ===== */
+.col-brand {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 28px 36px 0; font-size: 15px; font-weight: 700;
+  color: var(--ink); letter-spacing: 0.08em; flex-shrink: 0;
+  z-index: 3;
+}
+.col-brand .cb-tag {
+  background: var(--magenta); color: #FFF;
+  padding: 5px 14px; border-radius: 16px;
+  font-size: 12px; font-weight: 800; letter-spacing: 0.12em;
+}
+.col-brand .cb-date { color: rgba(26,26,26,0.6); font-size: 13px; font-weight: 500; }
+
+/* ===== 插画区（照片剪贴位）===== */
+.col-photo-area {
+  flex: 1; display: flex; align-items: center; justify-content: center;
+  position: relative; z-index: 2;
+  padding: 20px 40px;
+}
+.col-photo-frame {
+  background: var(--white);
+  padding: 8px;
+  box-shadow: 8px 8px 0 rgba(0,0,0,0.25);
+  transform: rotate(-1.5deg);
+  max-width: 80%; max-height: 70%;
+}
+.col-photo-frame img {
+  width: 100%; height: 100%; object-fit: contain;
+  display: block; filter: grayscale(100%) contrast(110%);
+}
+
+/* ===== 装饰色块（洋红）===== */
+.col-accent-block {
+  position: absolute;
+  background: var(--magenta);
+  z-index: 1;
+}
+.col-ab-1 { top: 80px; right: -20px; width: 80px; height: 120px; transform: rotate(3deg); }
+.col-ab-2 { bottom: 200px; left: -30px; width: 60px; height: 90px; transform: rotate(-5deg); }
+.col-ab-3 { top: 35%; right: -10px; width: 50px; height: 180px; transform: rotate(6deg); opacity: 0.8; }
+
+/* ===== 大标题区（底部）===== */
+.col-headline {
+  padding: 24px 40px 36px; z-index: 3; flex-shrink: 0;
+}
+.col-headline h1 {
+  font-size: 52px; font-weight: 900; color: var(--white);
+  line-height: 1.2; letter-spacing: -0.01em;
+  text-shadow: 2px 2px 0 rgba(0,0,0,0.2);
+}
+.col-headline .col-subtitle {
+  font-size: 18px; color: rgba(255,255,255,0.85);
+  margin-top: 10px; font-weight: 500;
+}
+
+/* ===== 签名行 ===== */
+.col-sig {
+  display: flex; justify-content: space-between; align-items: center;
+  padding-top: 16px; border-top: 2px solid rgba(255,255,255,0.4);
+  font-size: 14px; color: var(--white); font-weight: 600;
+}
+
+/* ===== 章节大数字 ===== */
+.col-chapter-num {
+  position: absolute; top: 32px; left: 36px;
+  font-size: 140px; font-weight: 900; color: rgba(255,255,255,0.12);
+  line-height: 1; z-index: 1; pointer-events: none;
+}
+
+/* ===== 正文内容 ===== */
+.col-body {
+  flex: 1; display: flex; flex-direction: column;
+  justify-content: center; padding: 20px 48px; z-index: 3;
+}
+.col-body-text {
+  font-size: 26px; line-height: 1.85; color: var(--white);
+  font-weight: 500;
+}
+.col-body-text p { margin-bottom: 22px; }
+.col-body-text p:last-child { margin-bottom: 0; }
+.col-body-text strong { font-weight: 800; }
+
+/* ===== 要点卡片（白色卡片剪贴在底上）===== */
+.col-points { display: flex; flex-direction: column; gap: 20px; flex: 1; justify-content: center; padding: 20px 44px; z-index: 3; }
+.col-point-card {
+  background: var(--white); padding: 24px 28px;
+  box-shadow: 5px 5px 0 rgba(0,0,0,0.2);
+  transform: rotate(-0.5deg);
+  position: relative;
+}
+.col-point-card:nth-child(even) { transform: rotate(0.6deg); }
+.col-point-card .cpc-num {
+  position: absolute; top: -10px; left: 16px;
+  background: var(--magenta); color: #FFF;
+  font-size: 18px; font-weight: 800;
+  padding: 4px 14px; border-radius: 12px;
+}
+.col-point-card .cpc-title {
+  font-size: 26px; font-weight: 800; color: var(--ink);
+  margin-top: 8px; margin-bottom: 8px;
+}
+.col-point-card .cpc-desc {
+  font-size: 19px; line-height: 1.65; color: #555; font-weight: 400;
+}
+
+/* ===== 金句（大黑块）===== */
+.col-quote-wrap { flex: 1; display: flex; align-items: center; justify-content: center; z-index: 3; padding: 30px; }
+.col-quote-box {
+  background: var(--ink); color: var(--white);
+  padding: 44px 52px; font-size: 38px; font-weight: 900;
+  line-height: 1.45; text-align: center;
+  box-shadow: 10px 10px 0 var(--magenta);
+  transform: rotate(-1.5deg); max-width: 850px;
+  letter-spacing: -0.01em;
+}
+
+/* ===== 结尾 ===== */
+.col-ending { flex: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; z-index: 3; padding: 40px; }
+.col-ending-title {
+  font-size: 56px; font-weight: 900; color: var(--white); line-height: 1.25;
+  margin-bottom: 28px; text-shadow: 2px 2px 0 rgba(0,0,0,0.2);
+}
+.col-ending-text {
+  font-size: 23px; line-height: 1.8; color: rgba(255,255,255,0.9);
+  max-width: 680px; margin-bottom: 40px; font-weight: 500;
+}
+.col-ending-sig {
+  display: flex; align-items: center; gap: 14px;
+  background: var(--white); padding: 14px 28px;
+  box-shadow: 4px 4px 0 rgba(0,0,0,0.2);
+  transform: rotate(0.8deg);
+}
+.col-ending-sig .sig-circle {
+  width: 44px; height: 44px; border-radius: 50%;
+  background: var(--magenta); color: #FFF;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 20px; font-weight: 800;
+}
+.col-ending-sig .sig-name { font-size: 22px; font-weight: 800; color: var(--ink); }
+.col-ending-sig .sig-tag { font-size: 13px; color: #888; font-weight: 500; }
+
+/* ===== 页脚 ===== */
+.col-footer {
+  display: flex; justify-content: space-between; align-items: center;
+  font-size: 14px; color: var(--white); font-weight: 600;
+  padding: 16px 36px 20px; z-index: 3;
+  border-top: 2px solid rgba(255,255,255,0.3);
+  flex-shrink: 0; margin-top: auto;
+}
+</style>
+</head>
+<body>
+
+<!-- ===== 页面 1：封面 ===== -->
+<div class="page" style="background: var(--cyan);">
+  <div class="page-inner">
+    <div class="col-accent-block col-ab-1"></div>
+    <div class="col-accent-block col-ab-2"></div>
+    <div class="col-accent-block col-ab-3"></div>
+
+    <div class="col-brand">
+      <span class="cb-tag">{{tag_label}}</span>
+      <span class="cb-date">{{date}}</span>
+    </div>
+
+    <div class="col-photo-area">
+      <div class="col-photo-frame">
+        <!-- 封面主图：替换 {{cover_image}}，CSS 自动转黑白 + 对比度增强 -->
+        <img src="{{cover_image}}" alt="cover">
+      </div>
+    </div>
+
+    <div class="col-headline">
+      <h1>{{article_title}}</h1>
+      <div class="col-subtitle">{{cover_subtitle}}</div>
+      <div class="col-sig">
+        <span>{{user_name}}</span><span>No.001</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== 页面 2：章节 ===== -->
+<div class="page" style="background: var(--cyan-dark);">
+  <div class="page-inner" style="border-color: var(--orange); background: var(--cyan-dark);">
+    <div class="col-chapter-num">01</div>
+    <div class="col-brand">
+      <span class="cb-tag">CHAPTER 01</span>
+      <span class="cb-date">{{article_title}}</span>
+    </div>
+    <div class="col-body">
+      <p style="font-size: 42px; font-weight: 900; color: #FFF; margin-bottom: 28px; line-height: 1.2;">{{chapter_1_title}}</p>
+      <div class="col-body-text">
+        <p>{{chapter_1_body_1}}</p>
+        <p>{{chapter_1_body_2}}</p>
+      </div>
+    </div>
+    <div class="col-footer">
+      <span>{{user_name}}</span><span>02 / 06</span>
+    </div>
+  </div>
+</div>
+
+<!-- ===== 页面 3：要点 ===== -->
+<div class="page" style="background: var(--cyan);">
+  <div class="page-inner">
+    <div class="col-chapter-num">02</div>
+    <div class="col-brand">
+      <span class="cb-tag">KEY POINTS</span>
+      <span class="cb-date">{{date}}</span>
+    </div>
+    <div style="font-size: 34px; font-weight: 900; color: #FFF; padding: 0 44px 16px; z-index: 3;">{{chapter_2_title}}</div>
+    <div class="col-points">
+      <div class="col-point-card">
+        <span class="cpc-num">01</span>
+        <div class="cpc-title">{{point_1_title}}</div>
+        <div class="cpc-desc">{{point_1_desc}}</div>
+      </div>
+      <div class="col-point-card">
+        <span class="cpc-num">02</span>
+        <div class="cpc-title">{{point_2_title}}</div>
+        <div class="cpc-desc">{{point_2_desc}}</div>
+      </div>
+    </div>
+    <div class="col-footer">
+      <span>{{user_name}}</span><span>03 / 06</span>
+    </div>
+  </div>
+</div>
+
+<!-- ===== 页面 4：要点（续） ===== -->
+<div class="page" style="background: var(--cyan-dark);">
+  <div class="page-inner" style="border-color: var(--orange); background: var(--cyan-dark);">
+    <div class="col-chapter-num">03</div>
+    <div class="col-brand">
+      <span class="cb-tag">KEY POINTS</span>
+      <span class="cb-date">{{date}}</span>
+    </div>
+    <div style="font-size: 34px; font-weight: 900; color: #FFF; padding: 0 44px 16px; z-index: 3;">{{chapter_3_title}}</div>
+    <div class="col-points">
+      <div class="col-point-card">
+        <span class="cpc-num">03</span>
+        <div class="cpc-title">{{point_3_title}}</div>
+        <div class="cpc-desc">{{point_3_desc}}</div>
+      </div>
+      <div class="col-point-card">
+        <span class="cpc-num">04</span>
+        <div class="cpc-title">{{point_4_title}}</div>
+        <div class="cpc-desc">{{point_4_desc}}</div>
+      </div>
+    </div>
+    <div class="col-footer">
+      <span>{{user_name}}</span><span>04 / 06</span>
+    </div>
+  </div>
+</div>
+
+<!-- ===== 页面 5：金句 ===== -->
+<div class="page" style="background: var(--cyan);">
+  <div class="page-inner">
+    <div class="col-accent-block col-ab-1"></div>
+    <div class="col-accent-block col-ab-2"></div>
+    <div class="col-brand">
+      <span class="cb-tag">★ QUOTE</span>
+      <span class="cb-date">{{user_name}}</span>
+    </div>
+    <div class="col-quote-wrap">
+      <div class="col-quote-box">{{quote_text}}</div>
+    </div>
+    <div class="col-footer">
+      <span>{{article_title}}</span><span>05 / 06</span>
+    </div>
+  </div>
+</div>
+
+<!-- ===== 页面 6：结尾 ===== -->
+<div class="page" style="background: var(--cyan-dark);">
+  <div class="page-inner" style="border-color: var(--orange); background: var(--cyan-dark);">
+    <div class="col-brand">
+      <span class="cb-tag">THE END</span>
+      <span class="cb-date">{{article_title}}</span>
+    </div>
+    <div class="col-ending">
+      <div class="col-ending-title">{{ending_title}}</div>
+      <div class="col-ending-text">{{ending_text}}</div>
+      <div class="col-ending-sig">
+        <div class="sig-circle">{{initial}}</div>
+        <div>
+          <div class="sig-name">{{user_name}}</div>
+          <div class="sig-tag">{{tagline}}</div>
+        </div>
+      </div>
+    </div>
+    <div class="col-footer">
+      <span>{{user_name}}</span><span>06 / 06</span>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
