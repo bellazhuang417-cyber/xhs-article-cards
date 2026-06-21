@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>知识卡片风 · 样张</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { background: #E8E2D5; }
+
+  :root {
+    --bg: #FFFFFF;
+    --ink: #1E293B;
+    --ink-soft: #64748B;
+    --blue: #2563EB;
+    --blue-light: #EFF6FF;
+    --blue-dark: #1E40AF;
+    --green: #059669;
+    --green-light: #ECFDF5;
+    --orange: #EA580C;
+    --orange-light: #FFF7ED;
+    --border: #E2E8F0;
+    --sans: "PingFang SC", "Helvetica Neue", sans-serif;
+  }
+
+  .page {
+    width: 1080px;
+    height: 1440px;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--sans);
+    position: relative;
+    overflow: hidden;
+    margin: 0 auto 40px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* ===== 顶部标签栏 ===== */
+  .top-bar {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 48px 72px 0;
+  }
+  .top-bar .tag {
+    padding: 8px 20px;
+    border-radius: 8px;
+    font-size: 18px;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+  }
+  .tag-blue { background: var(--blue); color: #fff; }
+  .tag-green { background: var(--green); color: #fff; }
+  .tag-orange { background: var(--orange); color: #fff; }
+  .tag-outline { border: 2px solid var(--blue); color: var(--blue); }
+
+  .top-bar .page-num {
+    margin-left: auto;
+    font-size: 18px;
+    color: var(--ink-soft);
+    font-weight: 500;
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* ===== 底部信息条 ===== */
+  .bottom-bar {
+    margin-top: auto;
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    padding: 0 72px 48px;
+    font-size: 18px;
+    color: var(--ink-soft);
+  }
+  .bottom-bar .bb-author {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 600;
+    color: var(--ink);
+  }
+  .bottom-bar .bb-avatar {
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--blue), var(--green));
+    display: flex; align-items: center; justify-content: center;
+    color: #fff; font-weight: 700; font-size: 16px;
+  }
+  .bottom-bar .bb-divider { width: 1px; height: 20px; background: var(--border); }
+  .bottom-bar .bb-source { font-size: 16px; }
+
+  /* ===== 封面 ===== */
+  .cover .cover-body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 0 72px;
+  }
+  .cover .cover-series {
+    font-size: 20px;
+    color: var(--blue);
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    margin-bottom: 24px;
+  }
+  .cover h1 {
+    font-size: 88px;
+    line-height: 1.2;
+    font-weight: 800;
+    color: var(--ink);
+    margin-bottom: 32px;
+    letter-spacing: -0.01em;
+  }
+  .cover .cover-sub {
+    font-size: 32px;
+    line-height: 1.5;
+    color: var(--ink-soft);
+    font-weight: 400;
+    max-width: 800px;
+    margin-bottom: 56px;
+  }
+  .cover .cover-meta {
+    display: flex;
+    gap: 16px;
+  }
+  .cover .meta-card {
+    padding: 20px 28px;
+    background: var(--blue-light);
+    border-radius: 12px;
+    border-left: 4px solid var(--blue);
+  }
+  .cover .meta-card .mc-label {
+    font-size: 14px;
+    color: var(--ink-soft);
+    margin-bottom: 4px;
+    letter-spacing: 0.1em;
+  }
+  .cover .meta-card .mc-value {
+    font-size: 24px;
+    color: var(--ink);
+    font-weight: 600;
+  }
+
+  /* ===== 章节页 ===== */
+  .chapter .chapter-body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 0 72px;
+  }
+  .chapter .ch-circle {
+    width: 160px; height: 160px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--blue), var(--blue-dark));
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 64px;
+    font-weight: 800;
+    margin-bottom: 48px;
+    box-shadow: 0 12px 32px rgba(37, 99, 235, 0.3);
+  }
+  .chapter h2 {
+    font-size: 64px;
+    line-height: 1.3;
+    font-weight: 800;
+    color: var(--ink);
+    margin-bottom: 32px;
+    letter-spacing: -0.01em;
+  }
+  .chapter .ch-desc {
+    font-size: 26px;
+    line-height: 1.7;
+    color: var(--ink-soft);
+    max-width: 760px;
+    padding: 24px 28px;
+    background: #F8FAFC;
+    border-radius: 12px;
+    border-left: 4px solid var(--border);
+  }
+
+  /* ===== 正文页 ===== */
+  .content .content-body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 20px 72px;
+  }
+  .content h2 {
+    font-size: 44px;
+    line-height: 1.3;
+    font-weight: 700;
+    color: var(--ink);
+    margin-bottom: 12px;
+  }
+  .content .content-sub {
+    font-size: 22px;
+    color: var(--blue);
+    font-weight: 500;
+    margin-bottom: 36px;
+  }
+  .content p {
+    font-size: 26px;
+    line-height: 1.85;
+    color: var(--ink);
+    margin-bottom: 24px;
+    text-align: justify;
+  }
+  .content .point-cards {
+    margin-top: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  .content .pcard {
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+    padding: 24px 28px;
+    background: var(--blue-light);
+    border-radius: 12px;
+    border-left: 4px solid var(--blue);
+  }
+  .content .pcard .pc-num {
+    flex-shrink: 0;
+    width: 40px; height: 40px;
+    border-radius: 50%;
+    background: var(--blue);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    font-weight: 700;
+  }
+  .content .pcard .pc-text {
+    font-size: 24px;
+    line-height: 1.6;
+    color: var(--ink);
+    font-weight: 500;
+    padding-top: 6px;
+  }
+
+  /* ===== 引用页 ===== */
+  .quote .quote-body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 0 72px;
+  }
+  .quote .quote-card {
+    background: linear-gradient(135deg, var(--blue-dark), var(--blue));
+    border-radius: 24px;
+    padding: 80px 64px;
+    text-align: center;
+    box-shadow: 0 20px 48px rgba(37, 99, 235, 0.25);
+  }
+  .quote .quote-mark {
+    font-size: 80px;
+    color: rgba(255,255,255,0.3);
+    line-height: 0.5;
+    margin-bottom: 40px;
+    font-weight: 700;
+  }
+  .quote blockquote {
+    font-size: 48px;
+    line-height: 1.5;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 40px;
+  }
+  .quote .quote-source {
+    font-size: 22px;
+    color: rgba(255,255,255,0.7);
+    font-weight: 400;
+  }
+
+  /* ===== 结尾页 ===== */
+  .ending .ending-body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 0 72px;
+  }
+  .ending .ending-card {
+    background: #F8FAFC;
+    border-radius: 20px;
+    padding: 56px 48px;
+    border: 2px solid var(--border);
+    margin-bottom: 32px;
+  }
+  .ending .ending-label {
+    font-size: 20px;
+    color: var(--green);
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    margin-bottom: 24px;
+  }
+  .ending h3 {
+    font-size: 48px;
+    line-height: 1.4;
+    font-weight: 800;
+    color: var(--ink);
+    margin-bottom: 28px;
+  }
+  .ending .ending-text {
+    font-size: 26px;
+    line-height: 1.85;
+    color: var(--ink-soft);
+  }
+  .ending .ending-cta {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 32px 40px;
+    background: linear-gradient(135deg, var(--blue-light), var(--green-light));
+    border-radius: 16px;
+  }
+  .ending .cta-avatar {
+    width: 64px; height: 64px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--blue), var(--green));
+    display: flex; align-items: center; justify-content: center;
+    color: #fff; font-weight: 800; font-size: 24px;
+    flex-shrink: 0;
+  }
+  .ending .cta-text {
+    flex: 1;
+  }
+  .ending .cta-title {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--ink);
+    margin-bottom: 4px;
+  }
+  .ending .cta-sub {
+    font-size: 18px;
+    color: var(--ink-soft);
+  }
+  .ending .cta-btn {
+    padding: 12px 28px;
+    background: var(--blue);
+    color: #fff;
+    border-radius: 24px;
+    font-size: 18px;
+    font-weight: 600;
+  }
+</style>
+</head>
+<body>
+
+<!-- 页面 1：封面 -->
+<div class="page cover">
+  <div class="top-bar">
+    <span class="tag tag-blue">ESSAY</span>
+    <span class="tag tag-outline">认知成长</span>
+    <span class="page-num">01 / 05</span>
+  </div>
+  <div class="cover-body">
+    <div class="cover-series">{{user_name_upper}}'S NOTES · No.001</div>
+    <h1>阅读是认知<br>的复利</h1>
+    <div class="cover-sub">一本好书如何改变你<br>看待世界的方式</div>
+    <div class="cover-meta">
+      <div class="meta-card">
+        <div class="mc-label">作者</div>
+        <div class="mc-value">{{user_name}}</div>
+      </div>
+      <div class="meta-card">
+        <div class="mc-label">阅读时长</div>
+        <div class="mc-value">3 分钟</div>
+      </div>
+      <div class="meta-card">
+        <div class="mc-label">日期</div>
+        <div class="mc-value">{{date}}</div>
+      </div>
+    </div>
+  </div>
+  <div class="bottom-bar">
+    <div class="bb-author"><div class="bb-avatar">{{initial}}</div> {{user_name}}</div>
+    <div class="bb-divider"></div>
+    <span class="bb-source">{{tagline}}</span>
+  </div>
+</div>
+
+<!-- 页面 2：章节页 -->
+<div class="page chapter">
+  <div class="top-bar">
+    <span class="tag tag-blue">第一章</span>
+    <span class="page-num">02 / 05</span>
+  </div>
+  <div class="chapter-body">
+    <div class="ch-circle">01</div>
+    <h2>阅读不是<br>信息获取</h2>
+    <div class="ch-desc">我们常把阅读等同于获取信息——读完一本书，记住几个观点，就算完成了。但阅读的真正价值远不止于此。</div>
+  </div>
+  <div class="bottom-bar">
+    <div class="bb-author"><div class="bb-avatar">{{initial}}</div> {{user_name}}</div>
+    <div class="bb-divider"></div>
+    <span class="bb-source">{{article_title}}</span>
+  </div>
+</div>
+
+<!-- 页面 3：正文页 -->
+<div class="page content">
+  <div class="top-bar">
+    <span class="tag tag-green">核心观点</span>
+    <span class="page-num">03 / 05</span>
+  </div>
+  <div class="content-body">
+    <h2>阅读的真正价值</h2>
+    <div class="content-sub">与更聪明的头脑对话</div>
+    <p>我们常把阅读等同于获取信息——读完一本书，记住几个观点，就算完成了。但阅读的真正价值不在于此。</p>
+    <p>阅读是与一个更聪明的头脑对话。每一本好书背后，都站着一个花了数年甚至数十年思考某个问题的人。你用几个小时，就获得了他一生的思考结晶。</p>
+    <div class="point-cards">
+      <div class="pcard">
+        <div class="pc-num">1</div>
+        <div class="pc-text">阅读不是填满容器，而是点燃火焰</div>
+      </div>
+      <div class="pcard">
+        <div class="pc-num">2</div>
+        <div class="pc-text">认知的改变比知识的积累更重要</div>
+      </div>
+      <div class="pcard">
+        <div class="pc-num">3</div>
+        <div class="pc-text">好书会重塑你提问的方式，而不只是给你答案</div>
+      </div>
+    </div>
+  </div>
+  <div class="bottom-bar">
+    <div class="bb-author"><div class="bb-avatar">{{initial}}</div> {{user_name}}</div>
+    <div class="bb-divider"></div>
+    <span class="bb-source">{{article_title}}</span>
+  </div>
+</div>
+
+<!-- 页面 4：引用页 -->
+<div class="page quote">
+  <div class="top-bar">
+    <span class="tag tag-orange">金句</span>
+    <span class="page-num">04 / 05</span>
+  </div>
+  <div class="quote-body">
+    <div class="quote-card">
+      <div class="quote-mark">"</div>
+      <blockquote>我们读书，不是为了记住，<br>而是为了被改变。</blockquote>
+      <div class="quote-source">艾伦·雅各布斯《阅读的乐趣》</div>
+    </div>
+  </div>
+  <div class="bottom-bar">
+    <div class="bb-author"><div class="bb-avatar">{{initial}}</div> {{user_name}}</div>
+    <div class="bb-divider"></div>
+    <span class="bb-source">{{article_title}}</span>
+  </div>
+</div>
+
+<!-- 页面 5：结尾页 -->
+<div class="page ending">
+  <div class="top-bar">
+    <span class="tag tag-green">结语</span>
+    <span class="page-num">05 / 05</span>
+  </div>
+  <div class="ending-body">
+    <div class="ending-card">
+      <div class="ending-label">SUMMARY · 总结</div>
+      <h3>阅读是一场<br>漫长的复利游戏</h3>
+      <div class="ending-text">每天 30 页，一年就是 50 本书。十年后，你的认知带宽将完全不同。重要的不是你读了多少，而是你被改变了多少。</div>
+    </div>
+    <div class="ending-cta">
+      <div class="cta-avatar">{{initial}}</div>
+      <div class="cta-text">
+        <div class="cta-title">{{user_name}}</div>
+        <div class="cta-sub">{{tagline}}</div>
+      </div>
+      <div class="cta-btn">+ 关注</div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

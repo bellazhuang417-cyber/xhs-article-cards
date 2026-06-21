@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>极简冲击风 · {{article_title}}</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { background: #E8E2D5; }
+
+:root {
+  --bg: #FFFFFF;
+  --ink: #0A0A0A;
+  --ink-soft: #737373;
+  --ink-faint: #A3A3A3;
+  --green: #22C55E;
+  --cyan: #06B6D4;
+  --line: #F0F0F0;
+  --bold: "PingFang SC", "Hiragino Sans GB", -apple-system, sans-serif;
+  --serif: Georgia, "Songti SC", serif;
+}
+
+.page {
+  width: 1080px; height: 1440px;
+  background: var(--bg); color: var(--ink);
+  font-family: var(--bold);
+  position: relative; overflow: hidden;
+  margin: 0 auto 40px;
+  display: flex; flex-direction: column;
+}
+
+/* ===== 顶部导航条 ===== */
+.imp-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 48px 64px 0; font-size: 18px; flex-shrink: 0;
+}
+.imp-brand { font-weight: 700; color: var(--ink); font-style: italic; font-size: 22px; }
+.imp-nav { color: var(--ink-soft); font-size: 18px; }
+.imp-signup {
+  background: var(--green); color: #FFF;
+  padding: 8px 20px; border-radius: 20px;
+  font-size: 16px; font-weight: 600;
+}
+
+/* ===== 主体 ===== */
+.imp-body {
+  padding: 56px 64px; display: flex; flex-direction: column;
+  flex: 1;
+}
+
+/* ===== 超大标题 ===== */
+.imp-headline {
+  font-size: 72px; font-weight: 800; color: var(--ink);
+  line-height: 1.08; letter-spacing: -0.025em;
+  margin-bottom: 24px;
+}
+.imp-headline span { color: var(--green); }
+
+.imp-sub { font-size: 24px; color: var(--ink-soft); margin-bottom: 28px; line-height: 1.5; }
+
+.imp-cta {
+  display: inline-block; background: var(--green); color: #FFF;
+  padding: 14px 32px; border-radius: 24px;
+  font-size: 20px; font-weight: 600;
+  align-self: flex-start; margin-bottom: 40px;
+}
+
+/* ===== 视觉区 ===== */
+.imp-visual { flex: 1; display: flex; align-items: center; justify-content: center; }
+.imp-circle {
+  width: 320px; height: 320px; border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #67E8F9, var(--cyan) 60%, #0891B2);
+  box-shadow: 0 16px 48px rgba(6, 182, 212, 0.25);
+}
+
+/* ===== 页脚 ===== */
+.imp-footer {
+  display: flex; justify-content: space-between;
+  font-size: 18px; color: var(--ink-faint);
+  padding-top: 24px; border-top: 1px solid var(--line);
+  flex-shrink: 0;
+}
+
+/* ===== 章节大数字 ===== */
+.imp-chapter-num {
+  font-size: 28px; font-weight: 800; color: var(--green);
+  letter-spacing: -0.02em; margin-bottom: 16px;
+}
+
+/* ===== 正文 ===== */
+.imp-content {
+  font-size: 28px; line-height: 1.8; color: var(--ink);
+  font-weight: 400; flex: 1; display: flex; flex-direction: column;
+  justify-content: center;
+}
+.imp-content p { margin-bottom: 28px; }
+.imp-content p:last-child { margin-bottom: 0; }
+.imp-content strong { font-weight: 700; color: var(--green); }
+
+/* ===== 要点 ===== */
+.imp-points { display: flex; flex-direction: column; gap: 24px; flex: 1; justify-content: center; }
+.imp-point {
+  display: flex; gap: 24px; align-items: flex-start;
+  padding: 28px 0; border-bottom: 1px solid var(--line);
+}
+.imp-point:last-child { border-bottom: none; }
+.imp-point .ip-num {
+  font-size: 48px; font-weight: 800; color: var(--green);
+  line-height: 1; flex-shrink: 0; min-width: 80px;
+}
+.imp-point .ip-content { flex: 1; }
+.imp-point .ip-title {
+  font-size: 28px; font-weight: 700; color: var(--ink); margin-bottom: 8px;
+}
+.imp-point .ip-desc {
+  font-size: 22px; line-height: 1.6; color: var(--ink-soft);
+}
+
+/* ===== 金句 ===== */
+.imp-quote-area { flex: 1; display: flex; align-items: center; justify-content: center; }
+.imp-quote {
+  font-size: 48px; font-weight: 800; line-height: 1.4;
+  color: var(--ink); text-align: center; max-width: 800px;
+  letter-spacing: -0.02em;
+}
+.imp-quote span { color: var(--green); }
+
+/* ===== 结尾 ===== */
+.imp-ending {
+  flex: 1; display: flex; flex-direction: column;
+  justify-content: center; align-items: center; text-align: center;
+}
+.imp-ending-title {
+  font-size: 64px; font-weight: 800; color: var(--ink); line-height: 1.2;
+  margin-bottom: 32px; letter-spacing: -0.02em;
+}
+.imp-ending-title span { color: var(--green); }
+.imp-ending-text {
+  font-size: 26px; line-height: 1.8; color: var(--ink-soft);
+  max-width: 700px; margin-bottom: 48px;
+}
+.imp-ending-sig {
+  display: flex; align-items: center; gap: 16px;
+  padding: 16px 32px; border: 2px solid var(--ink); border-radius: 40px;
+}
+.imp-ending-sig .sig-circle {
+  width: 48px; height: 48px; border-radius: 50%;
+  background: var(--green); color: #FFF;
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--serif); font-size: 22px; font-weight: 700;
+}
+.imp-ending-sig .sig-name { font-size: 24px; font-weight: 700; color: var(--ink); }
+.imp-ending-sig .sig-tag { font-size: 16px; color: var(--ink-soft); }
+</style>
+</head>
+<body>
+
+<!-- ===== 页面 1：封面 ===== -->
+<div class="page">
+  <div class="imp-header">
+    <span class="imp-brand">{{user_name}}</span>
+    <span class="imp-nav">{{tag_label}}</span>
+    <span class="imp-signup">+ 关注</span>
+  </div>
+  <div class="imp-body">
+    <div class="imp-headline">{{headline_line_1}}<br>{{headline_line_2}}<br><span>{{headline_line_3}}</span></div>
+    <div class="imp-sub">{{cover_subtitle}}</div>
+    <div class="imp-cta">{{cta_text}} →</div>
+    <div class="imp-visual"><div class="imp-circle"></div></div>
+    <div class="imp-footer">
+      <span>{{article_title}}</span><span>01 / 06</span>
+    </div>
+  </div>
+</div>
+
+<!-- ===== 页面 2：章节 ===== -->
+<div class="page">
+  <div class="imp-header">
+    <span class="imp-brand">{{user_name}}</span>
+    <span class="imp-nav">CHAPTER 01</span>
+  </div>
+  <div class="imp-body">
+    <div class="imp-chapter-num">01 / {{chapter_1_title}}</div>
+    <div class="imp-content">
+      <p>{{chapter_1_body_1}}</p>
+      <p>{{chapter_1_body_2}}</p>
+    </div>
+    <div class="imp-footer">
+      <span>{{article_title}}</span><span>02 / 06</span>
+    </div>
+  </div>
+</div>
+
+<!-- ===== 页面 3：要点 ===== -->
+<div class="page">
+  <div class="imp-header">
+    <span class="imp-brand">{{user_name}}</span>
+    <span class="imp-nav">KEY POINTS</span>
+  </div>
+  <div class="imp-body">
+    <div class="imp-chapter-num">02 / {{chapter_2_title}}</div>
+    <div class="imp-points">
+      <div class="imp-point">
+        <div class="ip-num">01</div>
+        <div class="ip-content">
+          <div class="ip-title">{{point_1_title}}</div>
+          <div class="ip-desc">{{point_1_desc}}</div>
+        </div>
+      </div>
+      <div class="imp-point">
+        <div class="ip-num">02</div>
+        <div class="ip-content">
+          <div class="ip-title">{{point_2_title}}</div>
+          <div class="ip-desc">{{point_2_desc}}</div>
+        </div>
+      </div>
+    </div>
+    <div class="imp-footer">
+      <span>{{article_title}}</span><span>03 / 06</span>
+    </div>
+  </div>
+</div>
+
+<!-- ===== 页面 4：要点（续） ===== -->
+<div class="page">
+  <div class="imp-header">
+    <span class="imp-brand">{{user_name}}</span>
+    <span class="imp-nav">KEY POINTS</span>
+  </div>
+  <div class="imp-body">
+    <div class="imp-chapter-num">03 / {{chapter_3_title}}</div>
+    <div class="imp-points">
+      <div class="imp-point">
+        <div class="ip-num">03</div>
+        <div class="ip-content">
+          <div class="ip-title">{{point_3_title}}</div>
+          <div class="ip-desc">{{point_3_desc}}</div>
+        </div>
+      </div>
+      <div class="imp-point">
+        <div class="ip-num">04</div>
+        <div class="ip-content">
+          <div class="ip-title">{{point_4_title}}</div>
+          <div class="ip-desc">{{point_4_desc}}</div>
+        </div>
+      </div>
+    </div>
+    <div class="imp-footer">
+      <span>{{article_title}}</span><span>04 / 06</span>
+    </div>
+  </div>
+</div>
+
+<!-- ===== 页面 5：金句 ===== -->
+<div class="page">
+  <div class="imp-header">
+    <span class="imp-brand">{{user_name}}</span>
+    <span class="imp-nav">QUOTE</span>
+  </div>
+  <div class="imp-body">
+    <div class="imp-quote-area">
+      <div class="imp-quote">{{quote_text}}</div>
+    </div>
+    <div class="imp-footer">
+      <span>{{article_title}}</span><span>05 / 06</span>
+    </div>
+  </div>
+</div>
+
+<!-- ===== 页面 6：结尾 ===== -->
+<div class="page">
+  <div class="imp-header">
+    <span class="imp-brand">{{user_name}}</span>
+    <span class="imp-nav">THE END</span>
+  </div>
+  <div class="imp-body">
+    <div class="imp-ending">
+      <div class="imp-ending-title">{{ending_title}}</div>
+      <div class="imp-ending-text">{{ending_text}}</div>
+      <div class="imp-ending-sig">
+        <div class="sig-circle">{{initial}}</div>
+        <div>
+          <div class="sig-name">{{user_name}}</div>
+          <div class="sig-tag">{{tagline}}</div>
+        </div>
+      </div>
+    </div>
+    <div class="imp-footer">
+      <span>{{article_title}}</span><span>06 / 06</span>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

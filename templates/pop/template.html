@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>插画波普风 · {{article_title}}</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { background: #E8E2D5; }
+
+:root {
+  --pop-bg: #FDE047;
+  --pop-dot: #EAB308;
+  --ink: #1C1917;
+  --ink-soft: #854D0E;
+  --white: #FFFFFF;
+  --accent: #EF4444;
+  --blue: #3B82F6;
+  --bold: "PingFang SC", "Hiragino Sans GB", -apple-system, sans-serif;
+  --serif: Georgia, "Songti SC", serif;
+}
+
+.page {
+  width: 1080px; height: 1440px;
+  position: relative; overflow: hidden;
+  margin: 0 auto 40px;
+  font-family: var(--bold);
+}
+
+/* ===== 半调网点背景 ===== */
+.halftone {
+  position: absolute; inset: 0;
+  background-image: radial-gradient(circle, var(--pop-dot) 2.5px, transparent 2.5px);
+  background-size: 22px 22px; opacity: 0.35;
+  z-index: 1;
+}
+
+/* ===== 内容层 ===== */
+.pop-content {
+  position: relative; z-index: 2; height: 100%;
+  display: flex; flex-direction: column;
+  padding: 64px 56px;
+}
+
+/* ===== 标签 ===== */
+.pop-tag {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: var(--ink); color: var(--pop-bg);
+  padding: 8px 20px; border-radius: 24px;
+  font-size: 16px; font-weight: 700; letter-spacing: 0.12em;
+  align-self: flex-start;
+}
+
+/* ===== 插画区 ===== */
+.pop-illu {
+  flex: 1; display: flex; align-items: center; justify-content: center;
+  position: relative;
+}
+
+/* ===== 横幅 ===== */
+.pop-banner {
+  background: var(--white); border: 3px solid var(--ink);
+  padding: 24px 32px; margin: 0 8px;
+  transform: rotate(-1.5deg);
+  box-shadow: 6px 6px 0 var(--ink);
+}
+.pop-banner h2 {
+  font-size: 40px; font-weight: 800; color: var(--ink);
+  line-height: 1.3; letter-spacing: -0.01em;
+}
+.pop-banner p { font-size: 18px; color: var(--ink-soft); margin-top: 8px; font-weight: 500; }
+
+/* ===== 元信息 ===== */
+.pop-meta {
+  display: flex; align-items: center; gap: 12px;
+  margin-top: 20px; font-size: 16px; color: var(--ink); font-weight: 600;
+}
+.pop-meta .dot { width: 4px; height: 4px; background: var(--ink); border-radius: 50%; }
+
+/* ===== 章节大数字 ===== */
+.pop-chapter-num {
+  font-family: var(--serif); font-size: 200px; font-weight: 900;
+  color: var(--ink); opacity: 0.1;
+  position: absolute; top: 60px; right: 56px; line-height: 1;
+}
+
+/* ===== 正文 ===== */
+.pop-body {
+  font-size: 26px; line-height: 1.8; color: var(--ink);
+  font-weight: 500; flex: 1; display: flex; flex-direction: column;
+  justify-content: center;
+}
+.pop-body p { margin-bottom: 24px; }
+.pop-body p:last-child { margin-bottom: 0; }
+
+/* ===== 要点卡片 ===== */
+.pop-points { display: flex; flex-direction: column; gap: 20px; flex: 1; justify-content: center; }
+.pop-point-card {
+  background: var(--white); border: 3px solid var(--ink);
+  padding: 28px 32px; box-shadow: 5px 5px 0 var(--ink);
+  transform: rotate(-0.5deg);
+}
+.pop-point-card:nth-child(even) { transform: rotate(0.5deg); }
+.pop-point-card .ppc-num {
+  display: inline-block; background: var(--ink); color: var(--pop-bg);
+  font-size: 18px; font-weight: 800; padding: 4px 12px; border-radius: 12px;
+  margin-bottom: 12px;
+}
+.pop-point-card .ppc-title {
+  font-size: 28px; font-weight: 800; color: var(--ink); margin-bottom: 8px;
+}
+.pop-point-card .ppc-desc {
+  font-size: 20px; line-height: 1.6; color: var(--ink-soft); font-weight: 500;
+}
+
+/* ===== 金句 ===== */
+.pop-quote-area { flex: 1; display: flex; align-items: center; justify-content: center; }
+.pop-quote {
+  background: var(--ink); color: var(--pop-bg);
+  font-size: 36px; font-weight: 800; line-height: 1.5;
+  padding: 48px 56px; text-align: center;
+  transform: rotate(-2deg);
+  box-shadow: 8px 8px 0 var(--accent);
+  max-width: 800px;
+}
+
+/* ===== 结尾 ===== */
+.pop-ending {
+  flex: 1; display: flex; flex-direction: column;
+  justify-content: center; align-items: center; text-align: center;
+}
+.pop-ending-title {
+  font-size: 56px; font-weight: 900; color: var(--ink); line-height: 1.3;
+  margin-bottom: 32px;
+}
+.pop-ending-text {
+  font-size: 24px; line-height: 1.8; color: var(--ink-soft);
+  max-width: 700px; margin-bottom: 48px; font-weight: 500;
+}
+.pop-ending-sig {
+  display: flex; align-items: center; gap: 16px;
+  background: var(--white); border: 3px solid var(--ink);
+  padding: 16px 32px; box-shadow: 5px 5px 0 var(--ink);
+  transform: rotate(1deg);
+}
+.pop-ending-sig .sig-circle {
+  width: 48px; height: 48px; border-radius: 50%;
+  background: var(--ink); color: var(--pop-bg);
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--serif); font-size: 22px; font-weight: 700;
+}
+.pop-ending-sig .sig-name { font-size: 24px; font-weight: 800; color: var(--ink); }
+.pop-ending-sig .sig-tag { font-size: 14px; color: var(--ink-soft); font-weight: 500; }
+
+/* ===== 页脚 ===== */
+.pop-footer {
+  display: flex; justify-content: space-between; align-items: center;
+  font-size: 16px; font-weight: 600; color: var(--ink);
+  padding-top: 16px; border-top: 3px solid var(--ink);
+  flex-shrink: 0; margin-top: auto;
+}
+.pop-footer .pf-brand { font-style: italic; }
+</style>
+</head>
+<body>
+
+<!-- ===== 页面 1：封面 ===== -->
+<div class="page" style="background: var(--pop-bg);">
+  <div class="halftone"></div>
+  <div class="pop-content">
+    <span class="pop-tag">★ {{tag_label}}</span>
+    <div class="pop-illu">
+      <!-- 封面插画：替换 {{cover_image}} 为 ImageGen 生成的图 -->
+      <img src="{{cover_image}}" style="max-width: 60%; max-height: 80%; object-fit: contain;">
+    </div>
+    <div class="pop-banner">
+      <h2>{{article_title}}</h2>
+      <p>{{cover_subtitle}}</p>
+    </div>
+    <div class="pop-meta">
+      <span>{{user_name}}</span><span class="dot"></span>
+      <span>{{date}}</span><span class="dot"></span>No.001
+    </div>
+  </div>
+</div>
+
+<!-- ===== 页面 2：章节 ===== -->
+<div class="page" style="background: var(--pop-bg);">
+  <div class="halftone"></div>
+  <div class="pop-content">
+    <div class="pop-chapter-num">01</div>
+    <span class="pop-tag">CHAPTER 01</span>
+    <div class="pop-body">
+      <p style="font-size: 40px; font-weight: 800; color: var(--ink); margin-bottom: 32px;">{{chapter_1_title}}</p>
+      <p>{{chapter_1_body_1}}</p>
+      <p>{{chapter_1_body_2}}</p>
+    </div>
+  </div>
+</div>
+
+<!-- ===== 页面 3：要点 ===== -->
+<div class="page" style="background: var(--pop-bg);">
+  <div class="halftone"></div>
+  <div class="pop-content">
+    <span class="pop-tag">KEY POINTS</span>
+    <div style="font-size: 36px; font-weight: 800; color: var(--ink); margin: 20px 0;">{{chapter_2_title}}</div>
+    <div class="pop-points">
+      <div class="pop-point-card">
+        <span class="ppc-num">01</span>
+        <div class="ppc-title">{{point_1_title}}</div>
+        <div class="ppc-desc">{{point_1_desc}}</div>
+      </div>
+      <div class="pop-point-card">
+        <span class="ppc-num">02</span>
+        <div class="ppc-title">{{point_2_title}}</div>
+        <div class="ppc-desc">{{point_2_desc}}</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== 页面 4：要点（续） ===== -->
+<div class="page" style="background: var(--pop-bg);">
+  <div class="halftone"></div>
+  <div class="pop-content">
+    <span class="pop-tag">KEY POINTS</span>
+    <div style="font-size: 36px; font-weight: 800; color: var(--ink); margin: 20px 0;">{{chapter_3_title}}</div>
+    <div class="pop-points">
+      <div class="pop-point-card">
+        <span class="ppc-num">03</span>
+        <div class="ppc-title">{{point_3_title}}</div>
+        <div class="ppc-desc">{{point_3_desc}}</div>
+      </div>
+      <div class="pop-point-card">
+        <span class="ppc-num">04</span>
+        <div class="ppc-title">{{point_4_title}}</div>
+        <div class="ppc-desc">{{point_4_desc}}</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== 页面 5：金句 ===== -->
+<div class="page" style="background: var(--pop-bg);">
+  <div class="halftone"></div>
+  <div class="pop-content">
+    <span class="pop-tag">QUOTE</span>
+    <div class="pop-quote-area">
+      <div class="pop-quote">{{quote_text}}</div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== 页面 6：结尾 ===== -->
+<div class="page" style="background: var(--pop-bg);">
+  <div class="halftone"></div>
+  <div class="pop-content">
+    <span class="pop-tag">THE END</span>
+    <div class="pop-ending">
+      <div class="pop-ending-title">{{ending_title}}</div>
+      <div class="pop-ending-text">{{ending_text}}</div>
+      <div class="pop-ending-sig">
+        <div class="sig-circle">{{initial}}</div>
+        <div>
+          <div class="sig-name">{{user_name}}</div>
+          <div class="sig-tag">{{tagline}}</div>
+        </div>
+      </div>
+    </div>
+    <div class="pop-footer">
+      <span class="pf-brand">{{user_name}}</span>
+      <span>{{article_title}} · 06 / 06</span>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

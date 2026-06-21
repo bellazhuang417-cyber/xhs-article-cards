@@ -1,0 +1,21 @@
+# Dependencies
+node_modules/
+
+# Output / generated files
+output/
+*.png
+!templates/handdrawn/*.png
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Logs
+*.log

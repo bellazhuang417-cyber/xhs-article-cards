@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>极简编辑风 · 样张</title>
+<style>
+  /* ===== Reset ===== */
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { background: #E8E2D5; }
+
+  /* ===== 设计变量 ===== */
+  :root {
+    --bg: #F5F1EA;
+    --ink: #2C2C2C;
+    --ink-soft: #6B6258;
+    --accent: #1B3A5C;
+    --line: #C9BFB0;
+    --serif: "Songti SC", "STSong", "Source Han Serif SC", serif;
+    --sans: "PingFang SC", "Helvetica Neue", sans-serif;
+  }
+
+  /* ===== 页面容器 3:4 ===== */
+  .page {
+    width: 1080px;
+    height: 1440px;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--sans);
+    position: relative;
+    overflow: hidden;
+    margin: 0 auto 40px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* ===== 通用页眉/页脚 ===== */
+  .page-header {
+    padding: 56px 100px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 16px;
+    letter-spacing: 0.3em;
+    color: var(--ink-soft);
+    text-transform: uppercase;
+  }
+  .page-header .brand { font-weight: 500; }
+  .page-header .page-num { font-family: var(--serif); font-style: italic; font-size: 18px; }
+
+  .page-footer {
+    margin-top: auto;
+    padding: 0 100px 56px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    font-size: 15px;
+    color: var(--ink-soft);
+    letter-spacing: 0.1em;
+  }
+  .page-footer .footer-line {
+    flex: 1;
+    height: 1px;
+    background: var(--line);
+    margin: 0 24px 8px;
+  }
+
+  .thin-line { height: 1px; background: var(--line); width: 60px; }
+
+  /* ===== 封面页 cover ===== */
+  .cover {
+    justify-content: center;
+    padding: 0 120px;
+  }
+  .cover .cover-label {
+    font-size: 16px;
+    letter-spacing: 0.5em;
+    color: var(--accent);
+    margin-bottom: 40px;
+    font-weight: 500;
+  }
+  .cover h1 {
+    font-family: var(--serif);
+    font-size: 84px;
+    line-height: 1.25;
+    font-weight: 600;
+    color: var(--ink);
+    margin-bottom: 36px;
+    letter-spacing: 0.02em;
+  }
+  .cover .cover-subtitle {
+    font-size: 30px;
+    line-height: 1.6;
+    color: var(--ink-soft);
+    font-weight: 300;
+    margin-bottom: 80px;
+    max-width: 700px;
+  }
+  .cover .cover-meta {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    font-size: 20px;
+    color: var(--ink-soft);
+  }
+  .cover .cover-meta .meta-line {
+    width: 48px; height: 1px; background: var(--accent);
+  }
+
+  /* ===== 章节页 chapter ===== */
+  .chapter {
+    justify-content: center;
+    padding: 0 120px;
+  }
+  .chapter .ch-label {
+    font-size: 16px;
+    letter-spacing: 0.4em;
+    color: var(--accent);
+    margin-bottom: 24px;
+  }
+  .chapter .ch-number {
+    font-family: var(--serif);
+    font-size: 160px;
+    line-height: 1;
+    font-weight: 200;
+    color: var(--accent);
+    margin-bottom: 48px;
+    letter-spacing: -0.02em;
+  }
+  .chapter .ch-title {
+    font-family: var(--serif);
+    font-size: 56px;
+    line-height: 1.35;
+    font-weight: 600;
+    color: var(--ink);
+    max-width: 760px;
+  }
+  .chapter .ch-line {
+    width: 80px; height: 2px; background: var(--accent);
+    margin: 48px 0;
+  }
+
+  /* ===== 正文页 content ===== */
+  .content {
+    padding: 0 100px;
+  }
+  .content .content-body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 40px 0;
+  }
+  .content h2 {
+    font-family: var(--serif);
+    font-size: 40px;
+    line-height: 1.4;
+    font-weight: 600;
+    color: var(--accent);
+    margin-bottom: 40px;
+  }
+  .content .content-line {
+    width: 48px; height: 2px; background: var(--accent);
+    margin-bottom: 40px;
+  }
+  .content p {
+    font-size: 25px;
+    line-height: 1.95;
+    color: var(--ink);
+    margin-bottom: 28px;
+    text-align: justify;
+  }
+  .content .points {
+    margin-top: 16px;
+    padding-left: 4px;
+  }
+  .content .point {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    margin-bottom: 20px;
+    font-size: 24px;
+    line-height: 1.7;
+    color: var(--ink);
+  }
+  .content .point .point-mark {
+    font-family: var(--serif);
+    font-style: italic;
+    color: var(--accent);
+    font-size: 24px;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  /* ===== 引用页 quote ===== */
+  .quote {
+    justify-content: center;
+    padding: 0 140px;
+    text-align: center;
+  }
+  .quote .quote-mark {
+    font-family: var(--serif);
+    font-size: 120px;
+    line-height: 0.5;
+    color: var(--accent);
+    opacity: 0.3;
+    margin-bottom: 60px;
+  }
+  .quote blockquote {
+    font-family: var(--serif);
+    font-size: 46px;
+    line-height: 1.6;
+    font-weight: 500;
+    color: var(--ink);
+    margin-bottom: 60px;
+  }
+  .quote .quote-source {
+    font-size: 22px;
+    color: var(--ink-soft);
+    font-style: italic;
+  }
+  .quote .quote-line {
+    width: 60px; height: 1px; background: var(--line);
+    margin: 0 auto 24px;
+  }
+
+  /* ===== 结尾页 ending ===== */
+  .ending {
+    justify-content: center;
+    padding: 0 120px;
+    text-align: center;
+  }
+  .ending .ending-label {
+    font-size: 16px;
+    letter-spacing: 0.4em;
+    color: var(--accent);
+    margin-bottom: 40px;
+  }
+  .ending h3 {
+    font-family: var(--serif);
+    font-size: 48px;
+    line-height: 1.5;
+    font-weight: 600;
+    color: var(--ink);
+    margin-bottom: 48px;
+  }
+  .ending .ending-text {
+    font-size: 26px;
+    line-height: 1.9;
+    color: var(--ink-soft);
+    max-width: 760px;
+    margin: 0 auto 60px;
+  }
+  .ending .ending-divider {
+    width: 80px; height: 1px; background: var(--accent);
+    margin: 0 auto 40px;
+  }
+  .ending .ending-author {
+    font-family: var(--serif);
+    font-size: 28px;
+    color: var(--ink);
+    margin-bottom: 12px;
+    font-weight: 500;
+  }
+  .ending .ending-tagline {
+    font-size: 18px;
+    color: var(--ink-soft);
+    letter-spacing: 0.3em;
+  }
+</style>
+</head>
+<body>
+
+<!-- 页面 1：封面 -->
+<div class="page cover">
+  <div class="cover-label">ESSAY · 随笔</div>
+  <h1>阅读是认知<br>的复利</h1>
+  <div class="cover-subtitle">一本好书如何改变你<br>看待世界的方式</div>
+  <div class="cover-meta">
+    <div class="meta-line"></div>
+    <span>{{user_name}}</span>
+    <span>·</span>
+    <span>{{date}}</span>
+  </div>
+</div>
+
+<!-- 页面 2：章节页 -->
+<div class="page chapter">
+  <div class="ch-label">CHAPTER</div>
+  <div class="ch-number">01</div>
+  <div class="ch-title">阅读不是<br>信息获取</div>
+  <div class="ch-line"></div>
+</div>
+
+<!-- 页面 3：正文页 -->
+<div class="page content">
+  <div class="page-header">
+    <span class="brand">{{article_title}}</span>
+    <span class="page-num">03</span>
+  </div>
+  <div class="content-body">
+    <h2>阅读的真正价值</h2>
+    <div class="content-line"></div>
+    <p>我们常把阅读等同于获取信息——读完一本书，记住几个观点，就算完成了。但阅读的真正价值不在于此。</p>
+    <p>阅读是与一个更聪明的头脑对话。每一本好书背后，都站着一个花了数年甚至数十年思考某个问题的人。你用几个小时，就获得了他一生的思考结晶。</p>
+    <div class="points">
+      <div class="point"><span class="point-mark">i.</span><span>阅读不是填满容器，而是点燃火焰</span></div>
+      <div class="point"><span class="point-mark">ii.</span><span>认知的改变比知识的积累更重要</span></div>
+      <div class="point"><span class="point-mark">iii.</span><span>好书会重塑你提问的方式，而不只是给你答案</span></div>
+    </div>
+  </div>
+  <div class="page-footer">
+    <span>{{user_name}}</span>
+    <div class="footer-line"></div>
+    <span>{{tagline}}</span>
+  </div>
+</div>
+
+<!-- 页面 4：引用页 -->
+<div class="page quote">
+  <div class="page-header">
+    <span class="brand">{{article_title}}</span>
+    <span class="page-num">04</span>
+  </div>
+  <div class="quote-mark">"</div>
+  <blockquote>我们读书，不是为了记住，<br>而是为了被改变。</blockquote>
+  <div class="quote-line"></div>
+  <div class="quote-source">艾伦·雅各布斯《阅读的乐趣》</div>
+</div>
+
+<!-- 页面 5：结尾页 -->
+<div class="page ending">
+  <div class="ending-label">FIN · 终</div>
+  <h3>阅读是一场<br>漫长的复利游戏</h3>
+  <div class="ending-text">每天 30 页，一年就是 50 本书。十年后，你的认知带宽将完全不同。重要的不是你读了多少，而是你被改变了多少。</div>
+  <div class="ending-divider"></div>
+  <div class="ending-author">{{user_name}}</div>
+  <div class="ending-tagline">{{tagline}}</div>
+</div>
+
+</body>
+</html>
