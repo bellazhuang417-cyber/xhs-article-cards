@@ -4,17 +4,17 @@
 
 每篇文章产出 4-8 张 3:4 卡片（1080×1440 设计，2160×2880 高清导出），包含：封面、正文、要点、金句、结尾。封面和可选页面配 AI 生成的插画。
 
-![6 套模板预览](examples/preview-all.png)
+![8 套模板预览](examples/preview-all.png)
 
 ## ✨ 特性
 
-- **6 套模板风格**，覆盖不同内容调性
+- **8 套模板风格**，覆盖不同内容调性
 - **占位符系统**，每篇文章动态填充，不写死任何用户信息
 - **IP 设计引导**，新用户首次使用时设计专属视觉 IP
 - **AI 生图**，用 ImageGen 生成风格一致的插画
 - **高清导出**，Playwright 截图 2x PNG，适配小红书上传
 
-## 🎨 6 套模板
+## 🎨 8 套模板
 
 | # | 风格 | 目录 | 特点 |
 |---|------|------|------|
@@ -24,6 +24,8 @@
 | 4 | 插画波普风 | `templates/pop/` | 黄底半调网点 + 粗体横幅 + 倾斜卡片 |
 | 5 | 极简冲击风 | `templates/impact/` | 白底 + 超大标题 + 绿色 CTA + 极简留白 |
 | 6 | 日系杂志风 | `templates/magazine/` | 暖白底 + Grid 散落布局 + 衬线标题 + multiply 插画 |
+| 7 | 拼贴 Collage 风 | `templates/collage/` | 青色底 + 黑白照片剪贴 + 橙色粗框 + 洋红色块 |
+| 8 | 白板 Whiteboard 风 | `templates/whiteboard/` | 米白纸底 + 手绘框线 + 橙色箭头 + 草图图标 |
 
 每套模板支持 6 种版式：`cover` / `chapter` / `body` / `points` / `quote` / `ending`
 
@@ -44,13 +46,15 @@ xhs-article-cards/
 │   ├── illustration-guide.md # 配图指南
 │   ├── prompt-template.md    # 生图 prompt 模板
 │   └── qa-checklist.md       # QA 检查清单
-└── templates/                # 6 套 HTML 模板
+└── templates/                # 8 套 HTML 模板
     ├── handdrawn/
     ├── editorial/
     ├── knowledge/
     ├── pop/
     ├── impact/
-    └── magazine/
+    ├── magazine/
+    ├── collage/
+    └── whiteboard/
 ```
 
 ## 🔧 工作流
