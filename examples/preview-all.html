@@ -7,10 +7,10 @@
 body { background: #F5F3EF; padding: 40px 20px; font-family: -apple-system, "PingFang SC", sans-serif; }
 h1 { text-align: center; color: #2C2C2C; font-size: 28px; margin-bottom: 8px; }
 .subtitle { text-align: center; color: #888; font-size: 15px; margin-bottom: 40px; }
-.grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; max-width: 1200px; margin: 0 auto; }
+.grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; max-width: 1600px; margin: 0 auto; }
 .col { display: flex; flex-direction: column; align-items: center; }
 .label { font-size: 16px; font-weight: 600; color: #333; margin-bottom: 12px; }
-.card { width: 360px; height: 480px; position: relative; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.1); border-radius: 4px; }
+.card { width: 280px; height: 373px; position: relative; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.1); border-radius: 4px; }
 
 /* ========== ① 手绘人文风 ========== */
 .handdrawn { background: #FAF6EE; font-family: "Hannotate SC", cursive; }
@@ -103,11 +103,49 @@ h1 { text-align: center; color: #2C2C2C; font-size: 28px; margin-bottom: 8px; }
 .magazine .mag-item-box span { font-size: 18px; font-weight: 200; color: rgba(255,255,255,0.5); }
 .magazine .g1 .mag-item-box span { color: rgba(87,83,78,0.2); }
 .magazine .mag-bot { display: flex; justify-content: space-between; font-size: 9px; color: #B0AAA3; padding-top: 8px; border-top: 1px solid #EEE8DD; }
+
+/* ========== ⑦ 拼贴 Collage 风 ========== */
+.collage { background: #00B4D8; font-family: "PingFang SC", sans-serif; position: relative; }
+.collage .c-frame { position: absolute; inset: 6px; border: 4px solid #F77F00; display: flex; flex-direction: column; overflow: hidden; }
+.collage .c-brand { display: flex; justify-content: space-between; align-items: center; padding: 14px 20px 0; z-index: 3; flex-shrink: 0; }
+.collage .c-tag { background: #E91E7F; color: #FFF; padding: 3px 10px; border-radius: 12px; font-size: 9px; font-weight: 800; letter-spacing: 0.08em; }
+.collage .c-photo-area { flex: 1; display: flex; align-items: center; justify-content: center; padding: 8px 24px; z-index: 2; }
+.collage .c-polaroid { background: #FFF; padding: 5px; box-shadow: 5px 5px 0 rgba(0,0,0,0.25); transform: rotate(-1deg); width: 120px; height: 100px; }
+.collage .c-polaroid-inner { width: 100%; height: 78px; background: repeating-linear-gradient(135deg, #BBB 0, #BBB 3px, #CCC 3px, #CCC 6px); }
+.collage .c-headline { padding: 10px 24px 18px; z-index: 3; flex-shrink: 0; }
+.collage .c-headline h2 { font-size: 20px; font-weight: 900; color: #FFF; line-height: 1.2; text-shadow: 1px 1px 0 rgba(0,0,0,0.15); }
+.collage .c-headline .c-sub { font-size: 9px; color: rgba(255,255,255,0.8); margin-top: 4px; font-weight: 500; }
+.collage .c-sig { display: flex; justify-content: space-between; font-size: 8px; color: #FFF; font-weight: 600; padding-top: 6px; border-top: 2px solid rgba(255,255,255,0.35); }
+.collage .c-accent { position: absolute; background: #E91E7F; z-index: 1; }
+.collage .ca-1 { top: 40px; right: 0; width: 30px; height: 50px; transform: rotate(4deg); }
+.collage .ca-2 { bottom: 130px; left: 0; width: 24px; height: 40px; transform: rotate(-6deg); }
+
+/* ========== ⑧ 白板 Whiteboard 风 ========== */
+.wb { background: #FAF8F0; font-family: "PingFang SC", sans-serif; position: relative; }
+.wb .w-lines { position: absolute; inset: 0; background-image: linear-gradient(#F0EBD8 1px, transparent 1px); background-size: 100% 20px; pointer-events: none; }
+.wb .w-edge { position: absolute; inset: 6px; border: 1.5px solid rgba(44,44,44,0.06); border-radius: 3px; pointer-events: none; }
+.wb .w-content { position: relative; z-index: 2; height: 100%; padding: 16px 18px; display: flex; flex-direction: column; }
+.wb .w-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; flex-shrink: 0; }
+.wb .w-dots { display: flex; gap: 6px; }
+.wb .w-dot { width: 18px; height: 18px; border-radius: 50%; border: 2px solid #2C2C2C; display: flex; align-items: center; justify-content: center; font-size: 7px; font-weight: 700; color: #666; }
+.wb .w-tag { font-size: 9px; color: #F77F00; font-weight: 700; border: 2px solid #F77F00; border-radius: 12px; padding: 2px 8px; letter-spacing: 0.04em; }
+.wb .w-title-c { text-align: center; margin-bottom: 8px; flex-shrink: 0; }
+.wb .w-title-main { font-size: 22px; font-weight: 900; color: #2C2C2C; position: relative; display: inline-block; }
+.wb .w-title-main::after { content:""; position:absolute; bottom:1px; left:-4px; right:-4px; height:3px; background:#F77F00; opacity:0.35; z-index:-1; border-radius:2px; transform:rotate(-0.5deg); }
+.wb .w-sub { font-size: 9px; color:#666; font-style:italic; margin-top:3px; }
+.wb .w-hero { flex:1; display:flex; align-items:center; justify-content:center; }
+.wb .w-grid { display:grid; grid-template-columns:1fr 1.2fr 1fr; grid-template-rows:auto auto; gap:7px; width:100%; }
+.wb .w-gi { text-align:center; }
+.wb .w-gi-label { font-size:8px; font-weight:700; color:#2C2C2C; margin-bottom:3px; }
+.wb .w-gi-box { border:2px solid #2C2C2C; border-radius:6px; padding:6px; font-size:7px; background:#FFF; min-height:30px; display:flex; align-items:center; justify-content:center; box-shadow:1px 1px 0 rgba(0,0,0,0.04); }
+.wb .w-hero-word { font-size:32px; font-weight:900; color:#2C2C2C; line-height:1; position:relative; text-align:center; }
+.wb .w-hero-word::after { content:""; position:absolute; bottom:1px; left:-4px; right:-4px; height:4px; background:#F77F00; opacity:0.3; z-index:-1; border-radius:2px; }
+.wb .w-bot { display:flex; justify-content:space-between; font-size:9px; color:#666; font-weight:600; padding-top:8px; border-top:2px dashed rgba(44,44,44,0.12); flex-shrink:0; margin-top:auto; }
 </style>
 </head>
 <body>
 
-<h1>xhs-article-cards · 6 套模板风格</h1>
+<h1>xhs-article-cards · 8 套模板风格</h1>
 <p class="subtitle">示例文章：阅读是认知的复利 · 360 × 480（3:4 缩略）</p>
 
 <div class="grid">
@@ -275,6 +313,59 @@ h1 { text-align: center; color: #2C2C2C; font-size: 28px; margin-bottom: 8px; }
         <div class="mag-bot">
           <span>Bella</span><span>01 / 06</span>
         </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ⑦ 拼贴 Collage 风 -->
+  <div class="col">
+    <div class="label">⑦ 拼贴 Collage 风</div>
+    <div class="card collage">
+      <div class="c-accent ca-1"></div>
+      <div class="c-accent ca-2"></div>
+      <div class="c-frame">
+        <div class="c-brand"><span class="c-tag">★ ESSAY</span><span style="font-size:8px;color:rgba(255,255,255,0.65);">2026</span></div>
+        <div class="c-photo-area"><div class="c-polaroid"><div class="c-polaroid-inner"></div></div></div>
+        <div class="c-headline">
+          <h2>阅读是<br>认知的复利</h2>
+          <div class="c-sub">一本好书如何改变你看待世界的方式</div>
+          <div class="c-sig"><span>Bella</span><span>No.001</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ⑧ 白板 Whiteboard 风 -->
+  <div class="col">
+    <div class="label">⑧ 白板 Whiteboard 风</div>
+    <div class="card wb">
+      <div class="w-lines"></div>
+      <div class="w-edge"></div>
+      <div class="w-content">
+        <div class="w-top">
+          <div class="w-dots">
+            <span class="w-dot" style="color:#E74C3C;">●</span>
+            <span class="w-dot" style="color:#3498DB;">●</span>
+            <span class="w-dot" style="color:#9B59B6;">●</span>
+          </div>
+          <span class="w-tag">READING</span>
+          <span style="font-size:9px;color:#888;">2026</span>
+        </div>
+        <div class="w-title-c">
+          <div class="w-title-main">阅读是认知的复利</div>
+          <div class="w-sub">Reading as Compound Interest</div>
+        </div>
+        <div class="w-hero">
+          <div class="w-grid">
+            <div class="w-gi"><div class="w-gi-label">Prompt</div><div class="w-gi-box">Ask→Answer</div></div>
+            <div class="w-hero-word">LOOPS</div>
+            <div class="w-gi"><div class="w-gi-label">Loop</div><div class="w-gi-box">Goal→Repeat</div></div>
+            <div class="w-gi"><div class="w-gi-label">Discover</div><div class="w-gi-box" style="background:#E3F2FD;">🔍 Research</div></div>
+            <div></div>
+            <div class="w-gi"><div class="w-gi-label">Execute</div><div class="w-gi-box" style="background:#E8F5E9;">⚙️ Build</div></div>
+          </div>
+        </div>
+        <div class="w-bot"><span>Bella</span><span>01 / 06</span></div>
       </div>
     </div>
   </div>
