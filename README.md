@@ -6,6 +6,14 @@
 
 ![8 套模板预览](examples/preview-all.png)
 
+<details>
+<summary>📱 两张 4 合 1 预览（发小红书用，3:4）</summary>
+
+![模板 1-4](examples/preview-set-1.png)
+![模板 5-8](examples/preview-set-2.png)
+
+</details>
+
 ## ✨ 特性
 
 - **8 套模板风格**，覆盖不同内容调性
