@@ -33,8 +33,9 @@
 - `references/page-types.md`：6 种页面版式定义和选用规则。
 - `references/split-strategy.md`：拆页策略——如何把文章拆成卡片。
 - `references/illustration-guide.md`：配图指南——风格 DNA、IP 用法、构图模式。
-- `references/prompt-template.md`：3:4 竖版生图 prompt 模板。
+- `references/prompt-template.md`：生图 prompt 模板（含比例/后处理硬约束）。
 - `references/qa-checklist.md`：生成后检查和迭代规则。
+- `ip-constraints.md`：**该用户的 IP 特征约束**（首次使用时生成，每次生图前必读）。
 
 ## 工作流
 
@@ -62,12 +63,12 @@ IP 是你卡片上的"视觉签名"，让读者一眼认出是你。类似 ian-x
 **③ 收集用户基本信息**
 
 同时收集（用于卡片签名栏）：
-- **用户名字**：显示在每页左下角 `sig-name` 位置（如 "Bella"、"小明"、"Alex"）
+- **用户名字**：显示在每页左下角 `sig-name` 位置（从 `user-config.json` 读取）
 - **签名 tagline**：一句话个人标语（如 "咖啡 · 阅读 · AI · 生活"）
 
 **④ 生成 IP 定稿图**
 
-用 `ImageGen` 为用户生成 2-3 张不同动作的 IP 定稿图（3:4 竖版），覆盖常见场景。生成后让用户挑选最满意的，保存到用户的 skill 目录：
+用 `ImageGen` 为用户生成 2-3 张不同动作的 IP 定稿图（**1024x1024 正方形**），覆盖常见场景。生成后让用户挑选最满意的，保存到用户的 skill 目录：
 
 ```
 ~/.workbuddy/skills/xhs-article-cards/templates/handdrawn/
@@ -87,11 +88,45 @@ IP 是你卡片上的"视觉签名"，让读者一眼认出是你。类似 ian-x
 }
 ```
 
-后续所有卡片都优先使用这套定稿图 + 用户配置。
+**⑤ 固化 IP 特征约束（必须做）**
 
-如果用户选择「不要」或已有定稿图，直接进入 Step 1。但**用户名字必须收集**——不能默认写 "Bella"。
+IP 定稿后，把这套 IP 的**固定特征**写进 `ip-constraints.md`，放在 skill 根目录：
 
-### 1. 消化正文
+```
+~/.workbuddy/skills/xhs-article-cards/ip-constraints.md
+```
+
+这个文件是该用户 IP 的"宪法"——后续所有生图（无论换什么动作/场景）都必须以这些特征为基准，不能偏离。格式如下：
+
+```markdown
+# IP 特征约束
+
+## 固定特征（每次生图必须遵守）
+- 发型：{具体描述，如：短发 bob，发尾在下巴位置，空气刘海}
+- 脸型：{如：心形脸，倒三角}
+- 眼睛：{如：大圆眼，不是尖眼}
+- 体型：{如：纤细，中等身高}
+- 风格：{如：极简手绘线稿，纯白背景}
+
+## 生图时的 prompt 硬约束写法
+把上述特征转成英文否定式 + 正参照写入 prompt。示例：
+- ✅ 正描述：short bob hair ending at jawline
+- ❌ 否定式：NOT long hair, NOT shoulder-length, NOT flowing hair
+- 🤔 兜底：when unsure, make it SHORTER rather than longer
+- 正参照：Japanese bob haircut / French girl bob
+
+## 常见动作库
+看书 / 喝咖啡 / 旅行 / 思考（托腮）/ 工作 / 散步
+（生图时从中选，或根据文章主题发明新动作）
+```
+
+**为什么要这步：** IP 的固定特征（尤其发型）是模型最容易"自由发挥"出错的地方。光在 prompt 里写 "short bob" 不够——必须用否定式 + 正参照 + "拿不准就往保守方向调"三重锁死。把这些约束固化成文件后，无论哪个模型、哪次生图，都能读到同一套标准。
+
+后续所有卡片都优先使用这套定稿图 + user-config.json + ip-constraints.md。
+
+如果用户选择「不要」或已有定稿图，直接进入 Step 1。但**用户名字必须收集**——不能默认写任何名字。
+
+### 1. 消化正文 + 建立 output 路径
 
 先读用户给的文章/Markdown/链接。提炼：
 
@@ -101,6 +136,25 @@ IP 是你卡片上的"视觉签名"，让读者一眼认出是你。类似 ian-x
 - 哪些是认知锚点（核心判断、转折、对比、方法论）
 - 哪些适合纯文字，哪些适合配图
 - 有没有金句值得单独成页
+
+**同时，为本次生成建立独立的 output 目录（一个选题一个目录，所有产物放进去）：**
+
+```
+<用户产出根目录>/xhs-<文章slug>/
+  ├── cards.html          # 卡片 HTML 源文件
+  ├── cover-ip.png        # 封面配图（如有）
+  ├── <prefix>-01.png     # 导出的第 1 张卡片
+  ├── <prefix>-02.png     # 导出的第 2 张卡片
+  └── ...
+```
+
+**命名规则：**
+- 目录名：`xhs-<文章slug>`，slug 从文章标题提炼（英文小写 + 连字符，如 `xhs-skill-stability`、`xhs-reading-compound`）
+- 文件前缀：与 slug 一致（如 `skill-stability-01.png`）
+- 所有产物（HTML / 封面图 / 卡片 PNG）都放在同一个目录里，**不要散落在别处**
+- `<用户产出根目录>`：首次使用时询问用户，或从 `user-config.json` 读取（字段 `output_root`）
+
+**为什么：** 每个选题的所有产物集中在一个独立目录，方便后续 review、重新导出、上传小红书时一次性选中。避免不同文章的图片混在一起。
 
 ### 2. 拆页策略
 
@@ -128,7 +182,7 @@ IP 是你卡片上的"视觉签名"，让读者一眼认出是你。类似 ian-x
 - 金句页：不配图
 - 结尾页：可选
 
-如果用户已有 IP 定稿图（如 Bella IP），优先用定稿图做封面。如果没有，用 ImageGen 生成。
+如果用户已有 IP 定稿图（见 `ip-constraints.md` 和 `user-config.json`），优先用定稿图做封面。如果没有，用 ImageGen 生成。
 
 ### 4. 生成配图
 
@@ -204,6 +258,8 @@ lines. The entire drawing centered in the frame.
 ```bash
 NODE_PATH=<workspace>/node_modules node exporter/screenshot-file.js <html路径> <输出目录> <前缀>
 ```
+
+**输出目录 = Step 1 建立的 `xhs-<slug>/` 目录，前缀 = slug。** 不要导出到临时目录再手动搬——直接导进目标目录。
 
 导出 2x 高清 PNG（2160x2880），适配小红书上传。
 

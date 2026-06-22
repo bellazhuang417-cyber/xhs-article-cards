@@ -23,3 +23,4 @@ Thumbs.db
 
 # User-specific config (each user creates their own)
 user-config.json
+ip-constraints.md
